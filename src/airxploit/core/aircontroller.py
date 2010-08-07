@@ -4,9 +4,11 @@ Created on 31.07.2010
 @author: basti
 '''
 
+import logging
 from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
-import logging
+from airxploit.core.target import Wlan, Bluetooth
+import airxploit.discovery
 
 class AirController(object):
     '''
@@ -16,10 +18,12 @@ class AirController(object):
     BLUETOOTH_EVENT = BluetoothScanner.EVENT
     WLAN_EVENT = WlanScanner.EVENT
 
-    def __init__(self, airctl):
-        self.__bt = BluetoothScanner(airctl)
-        self.__wlan = WlanScanner(airctl)
+    def __init__(self, blackboard):
+        self.__blackboard = blackboard
+        self.__bt = BluetoothScanner(blackboard)
+        self.__wlan = WlanScanner(blackboard)
         self.__wlan.iface = "wlan0"
+        self.__sdp = airxploit.discovery.sdp.SdpBrowser(blackboard)
 
     
     def scan(self):
@@ -27,7 +31,19 @@ class AirController(object):
         self.__wlan.scan()
         
     def getWlanTargets(self):
-        return self.__wlan.getTargets()    
+        wlanTargets = []
+        
+        for target in self.__blackboard.readAll().values():
+            if type(target) == Wlan:
+                wlanTargets.append(target)
+                
+        return wlanTargets    
 
     def getBluetoothTargets(self):
-        return self.__bt.getTargets()
+        btTargets = []
+        
+        for target in self.__blackboard.readAll().values():
+            if type(target) == Bluetooth:
+                btTargets.append(target)
+                
+        return btTargets    

@@ -3,13 +3,13 @@
 
 from time import sleep
 from airxploit.view.console import ConsoleView
-from airxploit.core.airctl import AirCtl
+from airxploit.core.blackboard import Blackboard
 import logging
 
 logging.basicConfig(filename='airxploit.log', level=logging.DEBUG)
 
-airctl = AirCtl()
-airView = ConsoleView(airctl)
+blackboard = Blackboard()
+airView = ConsoleView(blackboard)
 
 while True:
     airView.scan()
