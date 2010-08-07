@@ -11,6 +11,8 @@ logging.basicConfig(filename='airxploit.log', level=logging.DEBUG)
 blackboard = Blackboard()
 airView = ConsoleView(blackboard)
 
+airView.header()
+
 while True:
     airView.scan()
     sleep(10)
