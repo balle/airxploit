@@ -14,11 +14,10 @@ class ConsoleView(object):
     '''
 
 
-    def __init__(self, airctl):
-        self.__controller = AirController(airctl)
-        self.__airctl = airctl
-        self.__airctl.registerForEvent(AirController.WLAN_EVENT, self)
-        self.__airctl.registerForEvent(AirController.BLUETOOTH_EVENT, self)
+    def __init__(self, blackboard):
+        self.__controller = AirController(blackboard)
+        self.__blackboard = blackboard
+        self.__blackboard.registerForEvent("ALL", self)
     
     def scan(self):
         print "\r" * 16
@@ -32,7 +31,16 @@ class ConsoleView(object):
 
         for target in self.__controller.getBluetoothTargets():
             print "-\t" + target.addr + "\t" + target.name
-
+            sdp = target.readInfo("sdp")
+            
+            if sdp != None:            
+                print "\nPlugin: SDP"
+                print "Channel\t\tName"
+                
+                for service in sdp:
+                    print str(service.channel) + "\t\t" + service.name
+                print "\n"
+            
         for target in self.__controller.getWlanTargets():
             print str(target.quality) + "\t" + target.addr + "\t" + target.name + "\t\t\t"
 
