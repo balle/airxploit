@@ -15,8 +15,23 @@ class Target(object):
         self.addr = None
         self.encryption = None
         self.quality = None
+        self.__additional_information = {}
 
+    def writeInfo(self, section, info):
+        self.__additional_information[section] = info
 
+    def readInfo(self, section):
+        if section in self.__additional_information:
+            return self.__additional_information[section]
+        else:
+            return None
+    
+    def hasInfo(self, section):
+        if section in self.__additional_information:
+            return True
+        else:
+            return False
+    
 class Bluetooth(Target):
     '''
     Bluetooth target
@@ -24,11 +39,7 @@ class Bluetooth(Target):
 
 
     def __init__(self):
-        self.sdp = None
-        self.rfcomm = None
-        self.channel = None
-        self.cod = None
-
+        Target.__init__(self)
 
 class Wlan(Target):
     '''
@@ -37,6 +48,4 @@ class Wlan(Target):
 
 
     def __init__(self):
-        self.channel = None
-        self.frequency = None
-        self.encryption_type = None
+        Target.__init__(self)

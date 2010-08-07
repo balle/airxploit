@@ -3,6 +3,7 @@ Created on 31.07.2010
 
 @author: basti
 '''
+import logging
 
 class EventMachine(object):
     '''
@@ -15,20 +16,24 @@ class EventMachine(object):
 
     def __init__(self):
         self.__events = {}
+        self.__events["ALL"] = 1
+        
         self.__event_listeners = {}
-    
+        self.__event_listeners["ALL"] = {}
+        
     def register(self, name):
         '''
         register an event
         '''
-        self.__events[name] = 1
-        self.__event_listeners[name] = {}
+        if name != "ALL":
+            self.__events[name] = 1
+            self.__event_listeners[name] = {}
     
     def unregister(self, name):
         '''
         unregister an event
         '''
-        if name in self.__events:
+        if name in self.__events and name != "ALL":
             del self.__events[name]
             del self.__event_listeners[name]
         else:
@@ -38,8 +43,10 @@ class EventMachine(object):
         '''
         register yourself as a listener for the given event
         listeners must implement an gotEvent(name) method
+        event name "ALL" will register for all events
         '''
-        if name in self.__events:
+        if name in self.__events or name == "ALL":
+            logging.debug("Registering " + str(obj) + " for event " + name)            
             self.__event_listeners[name][obj] = 1
         else:
             print "Unknown event " + name
@@ -48,7 +55,8 @@ class EventMachine(object):
         '''
         unregister as listener for event
         '''
-        if name in self.__events:
+        if name in self.__events or name == "ALL":
+            logging.debug("Unregistering " + str(obj) + " from event " + name)
             del self.__event_listeners[name][obj]
         else:
             print "Unknown event " + name
@@ -59,7 +67,12 @@ class EventMachine(object):
         this will iterate over all event listeners and call their gotEvent() method
         '''
         if name in self.__events:
-            for listener in self.__event_listeners[name]:
+            logging.debug("Fireing event " + name)
+            notify_listeners = {}
+            notify_listeners = self.__event_listeners[name]
+            notify_listeners.update(self.__event_listeners["ALL"])
+            
+            for listener in notify_listeners:
                 try:
                     listener.gotEvent(name)
                 except NotImplementedError:
