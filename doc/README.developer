@@ -1,0 +1,30 @@
+airXploit is a event based pluggable system for wireless world discovery and exploitation
+
+for an UML diagram of the scanning process and how the event machine and blackboard system works togehter
+with the plugin system see scanning.png
+
+this is the skeleton of a "w00w00 wireless is wonderfull" example plugin:
+
+import airxploit.core
+
+class Example(object):
+
+    EVENT = "GOT_YA"
+    
+    def __init__(self, blackboard):
+        self.__blackboard = blackboard
+        self.__blackboard.registerEvent(Example.EVENT)
+        self.__blackboard.registerForEvent("ALL", self)
+    
+    def gotEvent(self, event):        
+ 	# do somethin
+        for target in self.__blackboard.readAllWithoutInfo("example"):
+		print "w00w00"
+
+every pluggable component such as scanners, discovery services, tools and exploits get a Blackboard object injected in the constructor.
+this blackboard is used for information gathering, searching, event handling and basic configuration.
+in the constructor you can use it to register your own events in this case the "GOT_YA" event and register yourself for whatever 
+events you are interested in (in this case all events identified by the keyword "ALL")
+
+if an event got fired by another plugin the method gotEvent() will get invoked and you can do whatever you want (for example
+read all targets from the blackboard that dont have the info you collect and process them)

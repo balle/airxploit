@@ -1,0 +1,7 @@
+airXploit is a event based pluggable system for wireless world discovery and exploitation
+
+supported operating system: linux 2.6
+
+to use it you need python 2.6 with easyinstall.
+run "./install.sh" to install all required python modules.
+afterwards execute src/airxploit.py to start
