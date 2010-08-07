@@ -17,10 +17,10 @@ class BluetoothScanner(object):
 
     EVENT = "BLUETOOTH_TARGET_FOUND"
 
-    def __init__(self, airctl):
+    def __init__(self, blackboard):
         self.__targets = {}
-        self.__airctl = airctl
-        self.__airctl.registerEvent(BluetoothScanner.EVENT)
+        self.__blackboard = blackboard
+        self.__blackboard.registerEvent(BluetoothScanner.EVENT)
         
     def getTargets(self):
         return self.__targets.values()
@@ -37,12 +37,8 @@ class BluetoothScanner(object):
                 current_targets[target.addr] = target
                 logging.debug("Found bluetooth device " + device[0] + " " + device[1])
 
-#            for service in lightblue.findservices(device[0]):
-#                print "Service " + service[2] + " on channel " + str(service[1])
-#                sock = lightblue.socket()
-#                sock.connect((device[0], service[1]))
-#                sock.close
         except IOError, e:
+            # TODO: throw exception
             print "Bluetooth scanning failed " + e.message
             sys.exit(1)
         
@@ -52,6 +48,7 @@ class BluetoothScanner(object):
             if key not in self.__targets:
                 got_new_targets = True
                 self.__targets[key] = current_targets[key]
+                self.__blackboard.add( current_targets[key] )
 
         if got_new_targets:
-            self.__airctl.fireEvent(BluetoothScanner.EVENT)    
+            self.__blackboard.fireEvent(BluetoothScanner.EVENT)    

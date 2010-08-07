@@ -18,11 +18,11 @@ class WlanScanner(object):
 
     EVENT = "WLAN_TARGET_FOUND"
 
-    def __init__(self, airctl):
+    def __init__(self, blackboard):
         self.iface = "wlan0"
         self.__targets = {}
-        self.__airctl = airctl
-        self.__airctl.registerEvent(WlanScanner.EVENT)
+        self.__blackboard = blackboard
+        self.__blackboard.registerEvent(WlanScanner.EVENT)
     
     def getTargets(self):
         return self.__targets.values()
@@ -59,7 +59,8 @@ class WlanScanner(object):
             if key not in self.__targets:
                 got_new_targets = True
                 self.__targets[key] = current_targets[key]
+                self.__blackboard.add( current_targets[key] )
 
         if got_new_targets:
-            self.__airctl.fireEvent(WlanScanner.EVENT)
+            self.__blackboard.fireEvent(WlanScanner.EVENT)
         
