@@ -48,11 +48,11 @@ unregister_for(EVENT)</panel_attributes><additional_attributes/></element><eleme
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>260;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>0</y><w>130</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Plugin
 --
-gotEvent(name)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>60</y><w>140</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>60</y><w>140</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>30;30;120;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>770</x><y>0</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 View
 --
-gotEvent(name)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>760</x><y>60</y><w>130</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>760</x><y>60</y><w>130</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>80;30;60;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>460</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Blackboard
 targets
