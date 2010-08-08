@@ -42,8 +42,8 @@ Eventmachine
 register(EVENT)
 unregister(EVENT)
 fire(EVENT)
-register_for(EVENT)
-unregister_for(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>300</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;.
+registerFor(EVENT)
+unregisterFor(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>300</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>460;50;140;50;140;110</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>320</y><w>280</w><h>110</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>260;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>0</y><w>130</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Plugin
