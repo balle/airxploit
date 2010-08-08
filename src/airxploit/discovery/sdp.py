@@ -15,6 +15,7 @@ class SdpBrowser(object):
     '''
 
     EVENT = "BLUETOOTH_SDP_FOUND"
+    SECTION = "sdp"
     
     def __init__(self, blackboard):
         self.__blackboard = blackboard
@@ -26,7 +27,7 @@ class SdpBrowser(object):
         return self.__result
     
     def run(self):
-        for target in self.__blackboard.readAllWithoutInfo("sdp"):
+        for target in self.__blackboard.readAllWithoutInfo(SdpBrowser.SECTION):
             try:
                 logging.debug("Executing SDP browse for target " + target.addr)
                 services = []
@@ -39,11 +40,8 @@ class SdpBrowser(object):
                 
                 if services.count > 0:    
                     self.__result = services
-                    self.__blackboard.addInfo(target, "sdp", services)
+                    self.__blackboard.addInfo(target, SdpBrowser.SECTION, services)
                     self.__blackboard.fireEvent(SdpBrowser.EVENT)
-                    #sock = lightblue.socket()
-                    #sock.connect((target, service[1]))
-                    #sock.close
 
             except IOError, e:
                 pass

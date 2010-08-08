@@ -72,12 +72,16 @@ class EventMachine(object):
             notify_listeners = self.__event_listeners[name]
             notify_listeners.update(self.__event_listeners["ALL"])
             
+            del_listeners = []
+            
             for listener in notify_listeners:
                 try:
                     listener.gotEvent(name)
-                except NotImplementedError:
-                    del self.__event_listeners[name][listener]
-                    next
+                except AttributeError:
+                    del_listeners.append(listener)
+            
+            for listener in del_listeners:
+                del self.__event_listeners[name][listener]
 
     def events(self):
         '''

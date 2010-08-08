@@ -49,11 +49,21 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
             sdp = target.readInfo("sdp")
             
             if sdp != None:            
-                print "\nPlugin: SDP"
+                print "\nSDP agent"
                 print "Channel\t\tName"
                 
                 for service in sdp:
                     print str(service.channel) + "\t\t" + service.name
+                print "\n"
+
+            rfcomm = target.readInfo("rfcomm")
+            
+            if rfcomm != None:            
+                print "\nRFCOMM agent"
+                print "Channel\t\tOpen"
+                
+                for channel in rfcomm:
+                    print str(channel.nr) + "\t\t" + str(channel.open)
                 print "\n"
             
         for target in self.__controller.getWlanTargets():

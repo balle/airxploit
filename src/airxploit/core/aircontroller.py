@@ -24,6 +24,7 @@ class AirController(object):
         self.__wlan = WlanScanner(blackboard)
         self.__wlan.iface = "wlan0"
         self.__sdp = airxploit.discovery.sdp.SdpBrowser(blackboard)
+        self.__rfcomm = airxploit.discovery.rfcomm.RfcommScanner(blackboard)
 
     
     def scan(self):
