@@ -15,11 +15,18 @@ class Example(object):
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(Example.EVENT)
         self.__blackboard.registerForEvent("ALL", self)
-    
-    def gotEvent(self, event):        
- 	# do somethin
+	self.__result = []
+
+    def run(self):
+	# do whatever you want
         for target in self.__blackboard.readAllWithoutInfo("example"):
 		print "w00w00"
+
+    def getResult(self):
+	return self.__result
+    
+    def gotEvent(self, event):        
+ 	self.run()
 
 every pluggable component such as scanners, discovery services, tools and exploits get a Blackboard object injected in the constructor.
 this blackboard is used for information gathering, searching, event handling and basic configuration.
@@ -27,4 +34,5 @@ in the constructor you can use it to register your own events in this case the "
 events you are interested in (in this case all events identified by the keyword "ALL")
 
 if an event got fired by another plugin the method gotEvent() will get invoked and you can do whatever you want (for example
-read all targets from the blackboard that dont have the info you collect and process them)
+read all targets from the blackboard that dont have the info you collect and process them). additionally every plugin must
+implement a run() and a getResult() method if the plugin should be called directly instead of being triggered by an event.
