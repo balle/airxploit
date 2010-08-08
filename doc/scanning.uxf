@@ -61,6 +61,6 @@ add()
 addInfo()
 readAll()
 readAllWithoutInfo()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>600</x><y>300</y><w>130</w><h>70</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>110;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>330</x><y>140</y><w>260</w><h>160</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;list&gt;&gt;</panel_attributes><additional_attributes>30;50;210;50;210;140</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>130</x><y>70</y><w>500</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;list&gt;&gt;</panel_attributes><additional_attributes>30;90;30;50;450;50;450;200;450;180</additional_attributes></element></umlet_diagram>
+&lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>110;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>330</x><y>140</y><w>290</w><h>160</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;50;210;50;210;140</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>130</x><y>70</y><w>530</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;90;30;50;450;50;450;200;450;180</additional_attributes></element></umlet_diagram>
