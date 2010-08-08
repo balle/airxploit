@@ -27,8 +27,8 @@ class AirController(object):
 
     
     def scan(self):
-        self.__bt.scan()
-        self.__wlan.scan()
+        self.__bt.run()
+        self.__wlan.run()
         
     def getWlanTargets(self):
         wlanTargets = []

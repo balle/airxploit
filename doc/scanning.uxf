@@ -31,10 +31,12 @@ Target.Wlan
 </panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>20</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Scanner.Wlan
 --
-scan()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>220</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+run()
+getResult()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>220</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Scanner.Bluetooth
 --
-scan()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>60</x><y>70</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;30;30;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>180</x><y>70</y><w>130</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;30;110;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>20</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
+run()
+getResult()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>60</x><y>70</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;30;30;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>180</x><y>70</y><w>130</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;30;110;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>20</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>70;30;70;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>220</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>70;30;70;190</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>710</x><y>270</y><w>160</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Eventmachine
@@ -45,15 +47,17 @@ fire(EVENT)
 registerFor(EVENT)
 unregisterFor(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>300</y><w>480</w><h>130</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>460;50;140;50;140;110</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>320</y><w>280</w><h>110</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>260;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>0</y><w>130</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
-Plugin
+&lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>260;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>0</y><w>130</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+Agent
 --
-gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>60</y><w>170</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>30;30;150;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>770</x><y>0</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+run()
+getResult()
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>70</y><w>170</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>30;30;150;200</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>770</x><y>0</y><w>120</w><h>100</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 View
 --
-gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>60</y><w>140</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>90;30;60;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>460</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>70</y><w>140</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>90;30;60;200</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>460</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Blackboard
 targets
 --
@@ -62,6 +66,6 @@ addInfo()
 readAll()
 readAllWithoutInfo()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>600</x><y>300</y><w>130</w><h>70</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>110;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>0</y><w>410</w><h>300</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;30;330;30;330;190;330;280</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>520</x><y>60</y><w>156</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;add info&gt;&gt;</panel_attributes><additional_attributes>60;210;100;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>580</x><y>60</y><w>230</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;read&gt;&gt;</panel_attributes><additional_attributes>30;210;30;150;210;150;210;30</additional_attributes></element></umlet_diagram>
+&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;30;330;30;330;190;330;280</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>520</x><y>70</y><w>156</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;add info&gt;&gt;</panel_attributes><additional_attributes>60;200;100;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>580</x><y>70</y><w>230</w><h>220</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;read&gt;&gt;</panel_attributes><additional_attributes>30;200;30;140;210;140;210;30</additional_attributes></element></umlet_diagram>

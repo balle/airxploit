@@ -9,6 +9,8 @@ import sys
 from pythonwifi.iwlibs import Wireless
 import airxploit.core
 import logging
+from airxploit.fuckup.permission_denied import PermissionDenied
+from airxploit.fuckup.big_shit import BigShit
 
 class WlanScanner(object):
     '''
@@ -24,10 +26,10 @@ class WlanScanner(object):
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(WlanScanner.EVENT)
     
-    def getTargets(self):
+    def getResult(self):
         return self.__targets.values()
     
-    def scan(self):
+    def run(self):
         current_targets = {}
         logging.debug("Scanning for wlan devices")
         
@@ -36,9 +38,9 @@ class WlanScanner(object):
             results = wifi.scan()
         except IOError, e:
             if e.id != errno.EPERM:
-                print "Interface " + wifi.ifname + " doesnt support scanning"
+                raise BigShit("Interface " + wifi.ifname + " doesnt support scanning")
             else:
-                print "Permission denied"
+                raise PermissionDenied("Cannot scan for wifi :(")
                 sys.exit(1)
         
         if len(results) > 0:

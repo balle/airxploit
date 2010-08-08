@@ -22,10 +22,10 @@ class BluetoothScanner(object):
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(BluetoothScanner.EVENT)
         
-    def getTargets(self):
+    def getResult(self):
         return self.__targets.values()
     
-    def scan(self):
+    def run(self):
         current_targets = {}
         logging.debug("Scanning for bluetooth devices")
         
@@ -37,10 +37,8 @@ class BluetoothScanner(object):
                 current_targets[target.addr] = target
                 logging.debug("Found bluetooth device " + device[0] + " " + device[1])
 
-        except IOError, e:
-            # TODO: throw exception
-            print "Bluetooth scanning failed " + e.message
-            sys.exit(1)
+        except IOError:
+            pass
         
         got_new_targets = False
         

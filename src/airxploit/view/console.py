@@ -33,7 +33,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                           ?8P                                        
         """
     
-    def scan(self):
+    def run(self):
         print "\r" * 16
         print "\n<<< Scanning..."
         self.__controller.scan()
