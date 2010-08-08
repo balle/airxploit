@@ -14,5 +14,5 @@ airView = ConsoleView(blackboard)
 airView.header()
 
 while True:
-    airView.scan()
+    airView.run()
     sleep(10)
