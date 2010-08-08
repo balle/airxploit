@@ -48,12 +48,12 @@ unregister_for(EVENT)</panel_attributes><additional_attributes/></element><eleme
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>260;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>590</x><y>0</y><w>130</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Plugin
 --
-gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>60</y><w>140</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>30;30;120;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>770</x><y>0</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>630</x><y>60</y><w>170</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>30;30;150;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>770</x><y>0</y><w>120</w><h>90</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 View
 --
-gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>760</x><y>60</y><w>130</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>80;30;60;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>460</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+gotEvent(EVENT)</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>750</x><y>60</y><w>140</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;notify&gt;&gt;</panel_attributes><additional_attributes>90;30;60;210</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>460</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Blackboard
 targets
 --
@@ -62,4 +62,6 @@ addInfo()
 readAll()
 readAllWithoutInfo()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>600</x><y>300</y><w>130</w><h>70</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>110;50;30;50</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>210</x><y>0</y><w>410</w><h>300</h></coordinates><panel_attributes>lt=&lt;.
-&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;30;330;30;330;190;330;280</additional_attributes></element></umlet_diagram>
+&lt;&lt;list and edit&gt;&gt;</panel_attributes><additional_attributes>30;30;330;30;330;190;330;280</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>520</x><y>60</y><w>156</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;add info&gt;&gt;</panel_attributes><additional_attributes>60;210;100;30</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>580</x><y>60</y><w>230</w><h>230</h></coordinates><panel_attributes>lt=&lt;.
+&lt;&lt;read&gt;&gt;</panel_attributes><additional_attributes>30;210;30;150;210;150;210;30</additional_attributes></element></umlet_diagram>
