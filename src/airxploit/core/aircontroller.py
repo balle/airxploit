@@ -5,6 +5,7 @@ Created on 31.07.2010
 '''
 
 import logging
+from time import sleep
 from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
 from airxploit.core.target import Wlan, Bluetooth
@@ -27,7 +28,7 @@ class AirController(object):
                          "discover" : lambda s, p="": s.loadDiscoveryPlugin(p),
                          "scan" : lambda s,p="": s.loadScannerPlugin(p),
                          "show" : lambda s,p="": s.showPlugins(p),
-                         "start" : lambda s: s.scan()
+                         "start" : lambda s,p="": s.scan(p)
                          }
         self.__scannerCommands = {
                                   "bluetooth" : lambda s: airxploit.scanner.bluetooth.BluetoothScanner(self.__blackboard),
@@ -82,14 +83,21 @@ class AirController(object):
         else:
             raise airxploit.fuckup.not_a_command.NotACommand()
             
-    def scan(self):
+    def scan(self, mode):
+        if mode == "loop":
+            while True:
+                self.doScanning()
+                sleep(10);
+        else:
+            self.doScanning()
+            
+    def doScanning(self):
         if len(self.__scanner) == 0:
             raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
         
         for plugin in self.__scanner:
             if plugin == "wlan":
-                self.__scanner[plugin].iface = "wlan0"
-            
+                self.__scanner[plugin].iface = "wlan0"            
             self.__scanner[plugin].run()
         
     def getWlanTargets(self):
