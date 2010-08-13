@@ -83,7 +83,7 @@ class AirController(object):
         else:
             raise airxploit.fuckup.not_a_command.NotACommand()
             
-    def scan(self, mode):
+    def scan(self, mode=""):
         if mode == "loop":
             while True:
                 self.doScanning()
