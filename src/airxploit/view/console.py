@@ -121,7 +121,15 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print "<<< Unknown command"
             except airxploit.fuckup.big_shit.BigShit, e:
                 print "<<< " + str(e)
-
+            except TypeError:
+                bad_command = [
+                               "Ouch!",
+                               "Wrong, wrong, wrong...",
+                               "Eh... what?",
+                               "lol",
+                               "Unknown command"
+                               ]
+                print "<<< " + bad_command[ random.randint(0, len(bad_command)-1)]
         print "\n"        
         self.mainMenu()
             
