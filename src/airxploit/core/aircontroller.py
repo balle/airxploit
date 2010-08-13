@@ -48,6 +48,9 @@ class AirController(object):
         else:
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
 
+    def getDiscoveryPlugins(self):
+        return self.__discoveryCommand
+    
     def loadDiscoveryPlugin(self, plugin):
         if plugin in self.__discoveryCommand:
             self.__discoveryCommand[plugin](self)

@@ -89,7 +89,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                    "ok",
                                    "ack",
                                    "yes, master.",
-                                   "did it"
+                                   ":)"
                                    ]
                 print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
             except airxploit.fuckup.not_a_command.NotACommand:

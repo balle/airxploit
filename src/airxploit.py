@@ -1,7 +1,6 @@
 #!/usr/bin/python
 #!/usr/bin/python
 
-from time import sleep
 from airxploit.view.console import ConsoleView
 from airxploit.core.blackboard import Blackboard
 import logging
