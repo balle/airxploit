@@ -10,6 +10,7 @@ from airxploit.scanner.wlan import WlanScanner
 from airxploit.core.target import Wlan, Bluetooth
 import airxploit.fuckup
 import airxploit.discovery
+import re
 
 class AirController(object):
     '''
@@ -25,20 +26,34 @@ class AirController(object):
         self.__wlan = WlanScanner(blackboard)
         self.__wlan.iface = "wlan0"
         self.__commands = {
+                         "discover" : lambda s, p: s.loadDiscoveryPlugin(p),
                          "scan" : lambda s: s.scan()
                          }
-        self.__sdp = airxploit.discovery.sdp.SdpBrowser(blackboard)
-        self.__rfcomm = airxploit.discovery.rfcomm.RfcommScanner(blackboard)
+        self.__discoveryCommand = {
+                                   "sdp" : lambda s: airxploit.discovery.sdp.SdpBrowser(self.__blackboard),
+                                   "rfcomm" : lambda s: airxploit.discovery.rfcomm.RfcommScanner(self.__blackboard)
+                                   }
 
     def getCommands(self):
         return self.__commands.keys()
     
-    def runCommand(self, cmd):
-        if cmd in self.__commands:
-            self.__commands[cmd](self)
+    def runCommand(self, cmdline):
+        cmd = re.split(r"\s", cmdline)
+        
+        if cmd[0] in self.__commands:
+            if len(cmd) == 2:
+                self.__commands[cmd[0]](self, cmd[1])
+            else:
+                self.__commands[cmd[0]](self)
         else:
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
-        
+
+    def loadDiscoveryPlugin(self, plugin):
+        if plugin in self.__discoveryCommand:
+            self.__discoveryCommand[plugin](self)
+        else:
+            raise airxploit.fuckup.not_a_command.NotACommand()
+            
     def scan(self):
         self.__bt.run()
         self.__wlan.run()

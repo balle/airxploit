@@ -81,10 +81,17 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         elif cmd == "exit" or cmd == "quit":
             self.runAway()
         else:    
-            print "MUUH"
             try:
-                result = self.__controller.runCommand(cmd)
-                print result
+                self.__controller.runCommand(cmd)
+                cmd_successfull = [
+                                   "g0t it!",
+                                   "yeah",
+                                   "ok",
+                                   "ack",
+                                   "yes, master.",
+                                   "did it"
+                                   ]
+                print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
             except airxploit.fuckup.not_a_command.NotACommand:
                 print "<<< Unknown command"
 
