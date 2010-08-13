@@ -24,8 +24,9 @@ class AirController(object):
         self.__blackboard = blackboard
         self.__scanner = {}
         self.__commands = {
-                         "discover" : lambda s, p: s.loadDiscoveryPlugin(p),
-                         "scan" : lambda s,p: s.loadScannerPlugin(p),
+                         "discover" : lambda s, p="": s.loadDiscoveryPlugin(p),
+                         "scan" : lambda s,p="": s.loadScannerPlugin(p),
+                         "show" : lambda s,p="": s.showPlugins(p),
                          "start" : lambda s: s.scan()
                          }
         self.__scannerCommands = {
@@ -51,11 +52,17 @@ class AirController(object):
         else:
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
 
+    def showPlugins(self, category):
+        if category == "scan":
+            return self.__scannerCommands
+        elif category == "discover":
+            return self.__discoveryCommands 
+           
     def getDiscoveryPlugins(self):
         return self.__discoveryCommands
     
     def loadDiscoveryPlugin(self, plugin):
-        if plugin == "all":
+        if plugin == "all" or plugin == "":
             for p in self.__discoveryCommands:
                 self.__discoveryCommands[p](self)
         elif plugin in self.__discoveryCommands:
@@ -67,7 +74,7 @@ class AirController(object):
         return self.__scannerCommands
     
     def loadScannerPlugin(self, plugin):
-        if plugin == "all":
+        if plugin == "all" or plugin == "":
             for p in self.__scannerCommands:
                 self.__scanner[p] = self.__scannerCommands[p](self)
         elif plugin in self.__scannerCommands:

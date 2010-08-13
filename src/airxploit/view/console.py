@@ -10,6 +10,7 @@ import logging
 import os
 import random
 import sys
+import re
 
 class ConsoleView(object):
     '''
@@ -55,7 +56,8 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                     "Hey dont go... Let us look over there!",
                     "What do you want to explore now?",
                     "Life is fun!",
-                    ":)"
+                    ":)",
+                    "byebyeo"
                        ]
         print exit_msg[ random.randint(0, len(exit_msg)-1) ]
         sys.exit(0)
@@ -70,16 +72,39 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
             print "\t* " + cmd
         
         print "\n"
+    
+    def listPlugins(self, category):
+        if category == "all" or category == "":
+            for c in ["discover", "scan"]:
+                print c
+                plugins = self.__controller.showPlugins(c)
+                for plugin in plugins:
+                    print "\t" + plugin
+                print ""
+
+        else:
+            plugins = self.__controller.showPlugins(category)
         
+            if plugins == None:
+                print "<<< Dunno what " + category + " is x.x"
+            else:
+                for plugin in plugins:
+                    print plugin
+        print ""
+    
     def mainMenu(self):
         print ">>> ",
         
         cmd = sys.stdin.readline()
         cmd = cmd.strip()
+        matched_show = re.match(r"^show\s?(.*)", cmd)
+        
         if cmd == "help" or cmd == "":
             self.listCommands()
         elif cmd == "exit" or cmd == "quit":
             self.runAway()
+        elif matched_show:
+            self.listPlugins(matched_show.group(1))
         else:    
             try:
                 cmd_successfull = [
