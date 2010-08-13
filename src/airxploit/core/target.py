@@ -49,3 +49,5 @@ class Wlan(Target):
 
     def __init__(self):
         Target.__init__(self)
+        self.channel = None
+        

@@ -42,10 +42,10 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         logging.debug("Got event " + event)
         self.clearScreen()
         self.header()
-        print "Link\tAddr\t\t\tName"
+        print "Link\tAddr\tChannel\t\t\tName"
 
         for target in self.__controller.getBluetoothTargets():
-            print "-\t" + target.addr + "\t" + target.name
+            print "-\t" + target.addr + "\t" + "-\t" + target.name
             sdp = target.readInfo("sdp")
             
             if sdp != None:            
@@ -67,7 +67,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print "\n"
             
         for target in self.__controller.getWlanTargets():
-            print str(target.quality) + "\t" + target.addr + "\t" + target.name + "\t\t\t"
+            print str(target.quality) + "\t" + target.addr + "\t" + str(target.channel) + "\t\t" + target.name + "\t\t\t" 
 
 #
     def clearScreen(self):

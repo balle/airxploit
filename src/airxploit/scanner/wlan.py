@@ -20,6 +20,49 @@ class WlanScanner(object):
 
     EVENT = "WLAN_TARGET_FOUND"
 
+    frequency_channel_map = { 
+                                "2.412GHz" : 1,
+                                "2.417GHz" : 2,
+                                 "2.422GHz" : 3,
+                                 "2.427GHz" : 4,
+                                 "2.432GHz" : 5,
+                                 "2.437GHz" : 6,
+                                 "2.442GHz" : 7,
+                                 "2.447GHz" : 8,
+                                 "2.452GHz" : 9,
+                                 "2.457GHz" : 10,
+                                 "2.462GHz" : 11,
+                                 "2.467GHz" : 12,
+                                 "2.472GHz" : 13,
+                                 "2.484GHz" : 14,
+                                 "5.180GHz" : 36,
+                                 "5.200GHz" : 40,
+                                 "5.220GHZ" : 44,
+                                 "5.240GHz" : 48,
+                                 "5.260GHz" : 52,
+                                 "5.280GHz" : 56,
+                                 "5.300GHz" : 60,
+                                 "5.320GHz" : 64,
+                                 "5.500GHz" : 100,
+                                 "5.520GHz" : 104,                                
+                                 "5.540GHz" : 108,                                
+                                 "5.560GHz" : 112,                                
+                                 "5.580GHz" : 116,                                
+                                 "5.600GHz" : 120,                                
+                                 "5.620GHz" : 124,                                
+                                 "5.640GHz" : 128,                                
+                                 "5.660GHz" : 132,                                
+                                 "5.680GHz" : 136,                                
+                                 "5.700GHz" : 140,                                
+                                 "5.735GHz" : 147,                                
+                                 "5.755GHz" : 151,                                
+                                 "5.775GHz" : 155,                                
+                                 "5.795GHz" : 159,                                
+                                 "5.815GHz" : 163,                                
+                                 "5.835GHz" : 167,                                
+                                 "5.785GHz" : 171                                
+                                 }
+
     def __init__(self, blackboard):
         self.iface = "wlan0"
         self.__targets = {}
@@ -44,14 +87,13 @@ class WlanScanner(object):
                 sys.exit(1)
         
         if len(results) > 0:
-            (num_channels, frequencies) = wifi.getChannelInfo()
-            
             for ap in results:
 #               print ap.bssid + " " + frequencies.index(wifi._formatFrequency(ap.frequency.getFrequency())) + " " + ap.essid + " " + ap.quality.getSignallevel()
                 target = airxploit.core.target.Wlan()
                 target.quality = ap.quality.getSignallevel()
                 target.name = ap.essid
                 target.addr = ap.bssid
+                target.channel = WlanScanner.frequency_channel_map[ ap.frequency.getFrequency() ]
                 current_targets[ap.bssid] = target
                 logging.debug("Found wlan device " + ap.bssid + " " + " " + ap.essid)
         
