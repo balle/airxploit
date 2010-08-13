@@ -5,8 +5,11 @@ Created on 31.07.2010
 '''
 
 from airxploit.core.aircontroller import AirController
+import airxploit.fuckup
 import logging
 import os
+import random
+import sys
 
 class ConsoleView(object):
     '''
@@ -30,14 +33,64 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
 `?88P'`88bd88' d88'         d8P' `?8b      888888P'  88b`?8888P'd88'   `?8b  
                                            88P'                              
                                           d88                                
-                                          ?8P                                        
-        """
+                                          ?8P                                        """
+
+        greet_msg = ["We eat wireless worlds.",
+                    "Hack the planet!",
+                    "Explore, exploit, exhibit.",
+                    "Wanna play a game?",
+                    "Exception caught: Unknown space-time",
+                    "Whispering wireless wonders",
+                    "Freedom for your fingers",
+                   ]
+        print greet_msg[ random.randint(0, len(greet_msg)-1) ]
+        print ""
+
+    def runAway(self):
+        exit_msg = ["Got a wireless ride?",
+                    "May the source be with you",
+                    "Have a nice day!",
+                    "HF",
+                    "Ya leaving?",
+                    "Hey dont go... Let us look over there!",
+                    "What do you want to explore now?",
+                    "Life is fun!",
+                    ":)"
+                       ]
+        print exit_msg[ random.randint(0, len(exit_msg)-1) ]
+        sys.exit(0)
     
     def run(self):
-        print "\r" * 16
-        print "\n<<< Scanning..."
-        self.__controller.scan()
-    
+        self.listCommands()
+        self.mainMenu()
+
+    def listCommands(self):
+        print "///[ Commands:"
+        for cmd in self.__controller.getCommands():
+            print "\t* " + cmd
+        
+        print "\n"
+        
+    def mainMenu(self):
+        print ">>> ",
+        
+        cmd = sys.stdin.readline()
+        cmd = cmd.strip()
+        if cmd == "help" or cmd == "":
+            self.listCommands()
+        elif cmd == "exit" or cmd == "quit":
+            self.runAway()
+        else:    
+            print "MUUH"
+            try:
+                result = self.__controller.runCommand(cmd)
+                print result
+            except airxploit.fuckup.not_a_command.NotACommand:
+                print "<<< Unknown command"
+
+        print "\n"        
+        self.mainMenu()
+            
     def gotEvent(self, event):
         logging.debug("Got event " + event)
         self.clearScreen()

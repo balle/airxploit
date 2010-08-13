@@ -8,6 +8,7 @@ import logging
 from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
 from airxploit.core.target import Wlan, Bluetooth
+import airxploit.fuckup
 import airxploit.discovery
 
 class AirController(object):
@@ -23,10 +24,21 @@ class AirController(object):
         self.__bt = BluetoothScanner(blackboard)
         self.__wlan = WlanScanner(blackboard)
         self.__wlan.iface = "wlan0"
+        self.__commands = {
+                         "scan" : lambda s: s.scan()
+                         }
         self.__sdp = airxploit.discovery.sdp.SdpBrowser(blackboard)
         self.__rfcomm = airxploit.discovery.rfcomm.RfcommScanner(blackboard)
 
+    def getCommands(self):
+        return self.__commands.keys()
     
+    def runCommand(self, cmd):
+        if cmd in self.__commands:
+            self.__commands[cmd](self)
+        else:
+            raise airxploit.fuckup.not_a_command.NotACommand(cmd)
+        
     def scan(self):
         self.__bt.run()
         self.__wlan.run()

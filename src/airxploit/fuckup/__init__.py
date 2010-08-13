@@ -1,3 +1,4 @@
 import big_shit
+import not_a_command
 import not_a_target
 import permission_denied

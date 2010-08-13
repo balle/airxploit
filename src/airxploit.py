@@ -12,7 +12,4 @@ blackboard = Blackboard()
 airView = ConsoleView(blackboard)
 
 airView.header()
-
-while True:
-    airView.run()
-    sleep(10)
+airView.run()
