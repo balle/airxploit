@@ -22,14 +22,17 @@ class AirController(object):
 
     def __init__(self, blackboard):
         self.__blackboard = blackboard
-        self.__bt = BluetoothScanner(blackboard)
-        self.__wlan = WlanScanner(blackboard)
-        self.__wlan.iface = "wlan0"
+        self.__scanner = {}
         self.__commands = {
                          "discover" : lambda s, p: s.loadDiscoveryPlugin(p),
-                         "scan" : lambda s: s.scan()
+                         "scan" : lambda s,p: s.loadScannerPlugin(p),
+                         "start" : lambda s: s.scan()
                          }
-        self.__discoveryCommand = {
+        self.__scannerCommands = {
+                                  "bluetooth" : lambda s: airxploit.scanner.bluetooth.BluetoothScanner(self.__blackboard),
+                                  "wlan" : lambda s: airxploit.scanner.wlan.WlanScanner(self.__blackboard),
+                                  }
+        self.__discoveryCommands = {
                                    "sdp" : lambda s: airxploit.discovery.sdp.SdpBrowser(self.__blackboard),
                                    "rfcomm" : lambda s: airxploit.discovery.rfcomm.RfcommScanner(self.__blackboard)
                                    }
@@ -49,17 +52,38 @@ class AirController(object):
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
 
     def getDiscoveryPlugins(self):
-        return self.__discoveryCommand
+        return self.__discoveryCommands
     
     def loadDiscoveryPlugin(self, plugin):
-        if plugin in self.__discoveryCommand:
-            self.__discoveryCommand[plugin](self)
+        if plugin == "all":
+            for p in self.__discoveryCommands:
+                self.__discoveryCommands[p](self)
+        elif plugin in self.__discoveryCommands:
+            self.__discoveryCommands[plugin](self)
+        else:
+            raise airxploit.fuckup.not_a_command.NotACommand()
+            
+    def getScannerPlugins(self):
+        return self.__scannerCommands
+    
+    def loadScannerPlugin(self, plugin):
+        if plugin == "all":
+            for p in self.__scannerCommands:
+                self.__scanner[p] = self.__scannerCommands[p](self)
+        elif plugin in self.__scannerCommands:
+            self.__scanner[plugin] = self.__scannerCommands[plugin](self)
         else:
             raise airxploit.fuckup.not_a_command.NotACommand()
             
     def scan(self):
-        self.__bt.run()
-        self.__wlan.run()
+        if len(self.__scanner) == 0:
+            raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
+        
+        for plugin in self.__scanner:
+            if plugin == "wlan":
+                self.__scanner[plugin].iface = "wlan0"
+            
+            self.__scanner[plugin].run()
         
     def getWlanTargets(self):
         wlanTargets = []

@@ -82,7 +82,6 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
             self.runAway()
         else:    
             try:
-                self.__controller.runCommand(cmd)
                 cmd_successfull = [
                                    "g0t it!",
                                    "yeah",
@@ -92,8 +91,11 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                    ":)"
                                    ]
                 print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
+                self.__controller.runCommand(cmd)            
             except airxploit.fuckup.not_a_command.NotACommand:
                 print "<<< Unknown command"
+            except airxploit.fuckup.big_shit.BigShit, e:
+                print "<<< " + str(e)
 
         print "\n"        
         self.mainMenu()
