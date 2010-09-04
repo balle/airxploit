@@ -5,19 +5,21 @@ Created on 31.07.2010
 '''
 
 from airxploit.core.eventmachine import EventMachine
+from airxploit.core.serviceregistry import ServiceRegistry
 import logging
 import airxploit.core.target
 from airxploit.fuckup.not_a_target import NotATarget
 
 class Blackboard(object):
     '''
-    This module encapsulates the airxploit event machine, system configuration
+    This module encapsulates the airxploit event machine, service registry, system configuration
     required by all components and it is the central information gathering system
     '''
 
 
     def __init__(self):
         self.__event = EventMachine()        
+        self.__service = ServiceRegistry()
         self.__targets = {}
                
     def add(self, target):
@@ -54,3 +56,12 @@ class Blackboard(object):
 
     def registerForEvent(self, name, obj):
         return self.__event.registerFor(name, obj)
+
+    def registerService(self, name, plugin):
+        return self.__service.register(name, plugin)
+    
+    def unregisterService(self, name):
+        return self.__service.unregister(name)
+    
+    def getService(self, name):
+        return self.__service.getService(name)

@@ -19,6 +19,7 @@ class RfcommDiscovery(object):
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(RfcommDiscovery.EVENT)
         self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
+        self.__blackboard.registerService("RfcommDiscovery", self)
         self.__result = []
     
     def getResult(self):

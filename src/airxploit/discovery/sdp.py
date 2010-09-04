@@ -21,6 +21,7 @@ class SdpDiscovery(object):
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(SdpDiscovery.EVENT)
         self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
+        self.__blackboard.registerService("SdpDiscovery", self)
         self.__result = []
         
     def getResult(self):

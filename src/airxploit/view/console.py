@@ -121,8 +121,10 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print "<<< Unknown command"
             except airxploit.fuckup.big_shit.BigShit, e:
                 print "<<< " + str(e)
+                logging.error(str(e))
             except airxploit.fuckup.plugin_init.PluginInit, e:
                 print "<<< " + str(e)
+                logging.error(str(e))
             except TypeError, e:
                 bad_command = [
                                "Ouch!",
@@ -132,6 +134,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                ]
                 print "<<< " + bad_command[ random.randint(0, len(bad_command)-1)]
                 print str(e)
+                logging.error(str(e))
         print "\n"        
         self.mainMenu()
             

@@ -68,7 +68,8 @@ class WlanScanner(object):
         self.__targets = {}
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(WlanScanner.EVENT)
-    
+        self.__blackboard.registerService("WlanScanner", self)
+        
     def getResult(self):
         return self.__targets.values()
     

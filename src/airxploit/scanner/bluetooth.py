@@ -21,6 +21,7 @@ class BluetoothScanner(object):
         self.__targets = {}
         self.__blackboard = blackboard
         self.__blackboard.registerEvent(BluetoothScanner.EVENT)
+        self.__blackboard.registerService("BluetoothScanner", self)
         
     def getResult(self):
         return self.__targets.values()

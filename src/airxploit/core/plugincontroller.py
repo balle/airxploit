@@ -23,9 +23,9 @@ class PluginController(object):
     def __init__(self, blackboard):
         self.__blackboard = blackboard
         self.__scanner = {}
-        self.__commands = {}
-        self.__commands["scanner"] = {}
-        self.__commands["discovery"] = {}
+        self.__plugins = {}
+        self.__plugins["scanner"] = {}
+        self.__plugins["discovery"] = {}
 
     
     '''
@@ -54,7 +54,7 @@ class PluginController(object):
     def initPlugins(self):
         for category in ("scanner", "discovery"):
             for name in self.importPlugins(category):
-                self.__commands[category][name] = lambda s, category, name: self.initPlugin(category, name)
+                self.__plugins[category][name] = lambda s, category, name: self.initPlugin(category, name)
 
     '''
     init the given plugin
@@ -74,25 +74,25 @@ class PluginController(object):
     '''
     def showPlugins(self, category):
         if category == "scan":
-            return self.__commands["scanner"]
+            return self.__plugins["scanner"]
         elif category == "discover":
-            return self.__commands["discovery"] 
+            return self.__plugins["discovery"] 
     
     '''
     get a hash of all discovery plugins with name => lambda to init plugin
     '''
     def getDiscoveryPlugins(self):
-        return self.__commands["discovery"]
+        return self.__plugins["discovery"]
 
     '''
     init one or all discovery plugins
     '''    
     def loadDiscoveryPlugin(self, plugin):
         if plugin == "all" or plugin == "":
-            for p in self.__commands["discovery"]:
-                self.__commands["discovery"][p](self, "discovery", p)
-        elif plugin in self.__commands["discovery"]:
-            self.__commands["discovery"][plugin](self, "discovery", plugin)
+            for p in self.__plugins["discovery"]:
+                self.__plugins["discovery"][p](self, "discovery", p)
+        elif plugin in self.__plugins["discovery"]:
+            self.__plugins["discovery"][plugin](self, "discovery", plugin)
         else:
             raise airxploit.fuckup.not_a_command.NotACommand()
 
@@ -101,7 +101,7 @@ class PluginController(object):
     TODO: refactor
     '''            
     def getScannerPlugins(self):
-        return self.__commands["scanner"]
+        return self.__plugins["scanner"]
 
     '''
     init one or all scanner plugins
@@ -109,10 +109,10 @@ class PluginController(object):
     '''        
     def loadScannerPlugin(self, plugin):
         if plugin == "all" or plugin == "":
-            for p in self.__commands["scanner"]:
-                self.__scanner[p] = self.__commands["scanner"][p](self, "scanner", p)
-        elif plugin in self.__commands["scanner"]:
-            self.__scanner[plugin] = self.__commands["scanner"][plugin](self, "scanner", plugin)
+            for p in self.__plugins["scanner"]:
+                self.__scanner[p] = self.__plugins["scanner"][p](self, "scanner", p)
+        elif plugin in self.__plugins["scanner"]:
+            self.__scanner[plugin] = self.__plugins["scanner"][plugin](self, "scanner", plugin)
         else:
             raise airxploit.fuckup.not_a_command.NotACommand()
 
