@@ -4,6 +4,7 @@ Created on 31.07.2010
 @author: basti
 '''
 import logging
+import airxploit.fuckup
 
 class EventMachine(object):
     '''
@@ -37,7 +38,8 @@ class EventMachine(object):
             del self.__events[name]
             del self.__event_listeners[name]
         else:
-            print "Unknown event " + name
+            logging.error("Unknown event " + name)
+            raise airxploit.fuckup.not_an_event.NotAnEvent(name)
         
     def registerFor(self, name, obj):
         '''
@@ -49,7 +51,8 @@ class EventMachine(object):
             logging.debug("Registering " + str(obj) + " for event " + name)            
             self.__event_listeners[name][obj] = 1
         else:
-            print "Unknown event " + name
+            logging.error("Unknown event " + name)
+            raise airxploit.fuckup.not_an_event.NotAnEvent(name)
     
     def unregisterFor(self, name, obj):
         '''
@@ -59,7 +62,8 @@ class EventMachine(object):
             logging.debug("Unregistering " + str(obj) + " from event " + name)
             del self.__event_listeners[name][obj]
         else:
-            print "Unknown event " + name
+            logging.error("Unknown event " + name)
+            raise airxploit.fuckup.not_an_event.NotAnEvent(name)
         
     def fire(self, name):
         '''
