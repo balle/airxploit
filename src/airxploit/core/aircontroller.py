@@ -24,9 +24,9 @@ class AirController(object):
     BLUETOOTH_EVENT = BluetoothScanner.EVENT
     WLAN_EVENT = WlanScanner.EVENT
 
-    def __init__(self, blackboard):
-        self.__blackboard = blackboard
-        self.__pluginController = PluginController(blackboard)
+    def __init__(self, pcc):
+        self.__pcc = pcc
+        self.__pluginController = PluginController(pcc)
         self.__commands = {
                             "discover" : lambda s, p="": s.__pluginController.loadDiscoveryPlugin(p),
                             "scan" : lambda s,p="": s.__pluginController.loadScannerPlugin(p),
@@ -83,7 +83,7 @@ class AirController(object):
     def getWlanTargets(self):
         wlanTargets = []
         
-        for target in self.__blackboard.readAll().values():
+        for target in self.__pcc.readAll().values():
             if type(target) == Wlan:
                 wlanTargets.append(target)
                 
@@ -95,7 +95,7 @@ class AirController(object):
     def getBluetoothTargets(self):
         btTargets = []
         
-        for target in self.__blackboard.readAll().values():
+        for target in self.__pcc.readAll().values():
             if type(target) == Bluetooth:
                 btTargets.append(target)
                 

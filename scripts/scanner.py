@@ -9,9 +9,9 @@ import sys
 sys.path.append("../src")
 import airxploit
 
-blackboard = airxploit.core.blackboard.Blackboard()
-airctl = airxploit.core.aircontroller.AirController(blackboard)
-airview = airxploit.view.console.ConsoleView(blackboard)
+pcc = airxploit.core.plugin_control_center.PluginControlCenter()
+airctl = airxploit.core.aircontroller.AirController(pcc)
+airview = airxploit.view.console.ConsoleView(pcc)
 airview.header()
 
 for plugin in airctl.getScannerPlugins():

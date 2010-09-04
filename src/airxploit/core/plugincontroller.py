@@ -20,8 +20,8 @@ class PluginController(object):
     load plugins on demand
     '''
     
-    def __init__(self, blackboard):
-        self.__blackboard = blackboard
+    def __init__(self, pcc):
+        self.__pcc = pcc
         self.__scanner = {}
         self.__plugins = {}
         self.__plugins["scanner"] = {}
@@ -61,10 +61,10 @@ class PluginController(object):
     '''
     def initPlugin(self, category, name):
 #        logging.debug("Load plugin " + "airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()) 
-#        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()(self.__blackboard))
+#        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()(self.__pcc))
         if name.capitalize() + category.capitalize() in globals():
             logging.debug("Load plugin " + name.capitalize() + category.capitalize())
-            return globals()[name.capitalize() + category.capitalize()](self.__blackboard)  
+            return globals()[name.capitalize() + category.capitalize()](self.__pcc)  
         else:
             logging.error("Cannot load " + category + " plugin " + name)
             raise airxploit.fuckup.plugin_init.PluginInit(category + " " + name)

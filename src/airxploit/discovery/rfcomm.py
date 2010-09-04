@@ -15,18 +15,18 @@ class RfcommDiscovery(object):
     EVENT = "BLUETOOTH_RFCOMM_FOUND"
     SECTION = "rfcomm"
 
-    def __init__(self, blackboard):
-        self.__blackboard = blackboard
-        self.__blackboard.registerEvent(RfcommDiscovery.EVENT)
-        self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
-        self.__blackboard.registerService("RfcommDiscovery", self)
+    def __init__(self, pcc):
+        self.__pcc = pcc
+        self.__pcc.registerEvent(RfcommDiscovery.EVENT)
+        self.__pcc.registerForEvent(BluetoothScanner.EVENT, self)
+        self.__pcc.registerService("RfcommDiscovery", self)
         self.__result = []
     
     def getResult(self):
         return self.__result
     
     def run(self):
-        for target in self.__blackboard.readAllWithoutInfo(RfcommDiscovery.SECTION):
+        for target in self.__pcc.readAllWithoutInfo(RfcommDiscovery.SECTION):
             logging.debug("Executing RFCOMM scanner for target " + target.addr)
             self.__result = []
             channels = []
@@ -50,8 +50,8 @@ class RfcommDiscovery(object):
                 
             if channels.count > 0:    
                 self.__result = channels
-                self.__blackboard.addInfo(target, RfcommDiscovery.SECTION, channels)
-                self.__blackboard.fireEvent(RfcommDiscovery.EVENT)
+                self.__pcc.addInfo(target, RfcommDiscovery.SECTION, channels)
+                self.__pcc.fireEvent(RfcommDiscovery.EVENT)
             
     def gotEvent(self, event):        
         self.run()

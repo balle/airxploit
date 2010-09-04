@@ -17,18 +17,18 @@ class SdpDiscovery(object):
     EVENT = "BLUETOOTH_SDP_FOUND"
     SECTION = "sdp"
     
-    def __init__(self, blackboard):
-        self.__blackboard = blackboard
-        self.__blackboard.registerEvent(SdpDiscovery.EVENT)
-        self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
-        self.__blackboard.registerService("SdpDiscovery", self)
+    def __init__(self, pcc):
+        self.__pcc = pcc
+        self.__pcc.registerEvent(SdpDiscovery.EVENT)
+        self.__pcc.registerForEvent(BluetoothScanner.EVENT, self)
+        self.__pcc.registerService("SdpDiscovery", self)
         self.__result = []
         
     def getResult(self):
         return self.__result
     
     def run(self):
-        for target in self.__blackboard.readAllWithoutInfo(SdpDiscovery.SECTION):
+        for target in self.__pcc.readAllWithoutInfo(SdpDiscovery.SECTION):
             try:
                 logging.debug("Executing SDP browse for target " + target.addr)
                 services = []
@@ -41,8 +41,8 @@ class SdpDiscovery(object):
                 
                 if services.count > 0:    
                     self.__result = services
-                    self.__blackboard.addInfo(target, SdpDiscovery.SECTION, services)
-                    self.__blackboard.fireEvent(SdpDiscovery.EVENT)
+                    self.__pcc.addInfo(target, SdpDiscovery.SECTION, services)
+                    self.__pcc.fireEvent(SdpDiscovery.EVENT)
 
             except IOError, e:
                 pass

@@ -17,11 +17,11 @@ class BluetoothScanner(object):
 
     EVENT = "BLUETOOTH_TARGET_FOUND"
 
-    def __init__(self, blackboard):
+    def __init__(self, pcc):
         self.__targets = {}
-        self.__blackboard = blackboard
-        self.__blackboard.registerEvent(BluetoothScanner.EVENT)
-        self.__blackboard.registerService("BluetoothScanner", self)
+        self.__pcc = pcc
+        self.__pcc.registerEvent(BluetoothScanner.EVENT)
+        self.__pcc.registerService("BluetoothScanner", self)
         
     def getResult(self):
         return self.__targets.values()
@@ -47,7 +47,7 @@ class BluetoothScanner(object):
             if key not in self.__targets:
                 got_new_targets = True
                 self.__targets[key] = current_targets[key]
-                self.__blackboard.add( current_targets[key] )
+                self.__pcc.addTarget( current_targets[key] )
 
         if got_new_targets:
-            self.__blackboard.fireEvent(BluetoothScanner.EVENT)    
+            self.__pcc.fireEvent(BluetoothScanner.EVENT)    
