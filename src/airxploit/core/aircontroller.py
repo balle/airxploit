@@ -11,11 +11,14 @@ from airxploit.scanner.wlan import WlanScanner
 from airxploit.core.target import Wlan, Bluetooth
 import airxploit.fuckup
 import airxploit.discovery
+from airxploit.core.plugincontroller import PluginController
 import re
+import os
 
 class AirController(object):
     '''
-    Control the air
+    Control the air!
+    Guess what thats the airxploit controller class used by the views
     '''
 
     BLUETOOTH_EVENT = BluetoothScanner.EVENT
@@ -23,25 +26,24 @@ class AirController(object):
 
     def __init__(self, blackboard):
         self.__blackboard = blackboard
-        self.__scanner = {}
+        self.__pluginController = PluginController(blackboard)
         self.__commands = {
-                         "discover" : lambda s, p="": s.loadDiscoveryPlugin(p),
-                         "scan" : lambda s,p="": s.loadScannerPlugin(p),
-                         "show" : lambda s,p="": s.showPlugins(p),
-                         "start" : lambda s,p="": s.scan(p)
-                         }
-        self.__scannerCommands = {
-                                  "bluetooth" : lambda s: airxploit.scanner.bluetooth.BluetoothScanner(self.__blackboard),
-                                  "wlan" : lambda s: airxploit.scanner.wlan.WlanScanner(self.__blackboard),
-                                  }
-        self.__discoveryCommands = {
-                                   "sdp" : lambda s: airxploit.discovery.sdp.SdpBrowser(self.__blackboard),
-                                   "rfcomm" : lambda s: airxploit.discovery.rfcomm.RfcommScanner(self.__blackboard)
-                                   }
+                            "discover" : lambda s, p="": s.__pluginController.loadDiscoveryPlugin(p),
+                            "scan" : lambda s,p="": s.__pluginController.loadScannerPlugin(p),
+                            "show" : lambda s,p="": s.__pluginController.showPlugins(p),
+                            "start" : lambda s,p="": s.scan(p)
+                          }
+        self.__pluginController.initPlugins()
 
+    '''
+    get all commands
+    '''
     def getCommands(self):
         return self.__commands.keys()
     
+    '''
+    run a command
+    '''
     def runCommand(self, cmdline):
         cmd = re.split(r"\s", cmdline)
         
@@ -53,36 +55,10 @@ class AirController(object):
         else:
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
 
-    def showPlugins(self, category):
-        if category == "scan":
-            return self.__scannerCommands
-        elif category == "discover":
-            return self.__discoveryCommands 
-           
-    def getDiscoveryPlugins(self):
-        return self.__discoveryCommands
     
-    def loadDiscoveryPlugin(self, plugin):
-        if plugin == "all" or plugin == "":
-            for p in self.__discoveryCommands:
-                self.__discoveryCommands[p](self)
-        elif plugin in self.__discoveryCommands:
-            self.__discoveryCommands[plugin](self)
-        else:
-            raise airxploit.fuckup.not_a_command.NotACommand()
-            
-    def getScannerPlugins(self):
-        return self.__scannerCommands
-    
-    def loadScannerPlugin(self, plugin):
-        if plugin == "all" or plugin == "":
-            for p in self.__scannerCommands:
-                self.__scanner[p] = self.__scannerCommands[p](self)
-        elif plugin in self.__scannerCommands:
-            self.__scanner[plugin] = self.__scannerCommands[plugin](self)
-        else:
-            raise airxploit.fuckup.not_a_command.NotACommand()
-            
+    '''
+    scan for targets
+    '''        
     def scan(self, mode=""):
         if mode == "loop":
             while True:
@@ -92,14 +68,18 @@ class AirController(object):
             self.doScanning()
             
     def doScanning(self):
-        if len(self.__scanner) == 0:
+        scanner = self.__pluginController.getActiveScannerPlugins()
+        if len(scanner) == 0:
             raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
         
-        for plugin in self.__scanner:
+        for plugin in scanner:
             if plugin == "wlan":
-                self.__scanner[plugin].iface = "wlan0"            
-            self.__scanner[plugin].run()
-        
+                scanner[plugin].iface = "wlan0"            
+            scanner[plugin].run()
+    
+    '''
+    get a list of wlan targets
+    '''    
     def getWlanTargets(self):
         wlanTargets = []
         
@@ -109,6 +89,9 @@ class AirController(object):
                 
         return wlanTargets    
 
+    '''
+    get a list of bluetooth targets
+    '''
     def getBluetoothTargets(self):
         btTargets = []
         

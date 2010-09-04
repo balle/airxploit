@@ -7,7 +7,7 @@ from airxploit.scanner.bluetooth import BluetoothScanner
 import logging
 import lightblue
 
-class RfcommScanner(object):
+class RfcommDiscovery(object):
     '''
     A simple RFCOMM scanner thats tries to connect to all 20 channels
     '''
@@ -17,7 +17,7 @@ class RfcommScanner(object):
 
     def __init__(self, blackboard):
         self.__blackboard = blackboard
-        self.__blackboard.registerEvent(RfcommScanner.EVENT)
+        self.__blackboard.registerEvent(RfcommDiscovery.EVENT)
         self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
         self.__result = []
     
@@ -25,7 +25,7 @@ class RfcommScanner(object):
         return self.__result
     
     def run(self):
-        for target in self.__blackboard.readAllWithoutInfo(RfcommScanner.SECTION):
+        for target in self.__blackboard.readAllWithoutInfo(RfcommDiscovery.SECTION):
             logging.debug("Executing RFCOMM scanner for target " + target.addr)
             self.__result = []
             channels = []
@@ -49,8 +49,8 @@ class RfcommScanner(object):
                 
             if channels.count > 0:    
                 self.__result = channels
-                self.__blackboard.addInfo(target, RfcommScanner.SECTION, channels)
-                self.__blackboard.fireEvent(RfcommScanner.EVENT)
+                self.__blackboard.addInfo(target, RfcommDiscovery.SECTION, channels)
+                self.__blackboard.fireEvent(RfcommDiscovery.EVENT)
             
     def gotEvent(self, event):        
         self.run()

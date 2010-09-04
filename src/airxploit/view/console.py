@@ -115,21 +115,23 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                    "yes, master.",
                                    ":)"
                                    ]
-                print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
                 self.__controller.runCommand(cmd)            
-            except airxploit.fuckup.not_a_command.NotACommand:
+                print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
+            except airxploit.fuckup.not_a_command.NotACommand, e:
                 print "<<< Unknown command"
             except airxploit.fuckup.big_shit.BigShit, e:
                 print "<<< " + str(e)
-            except TypeError:
+            except airxploit.fuckup.plugin_init.PluginInit, e:
+                print "<<< " + str(e)
+            except TypeError, e:
                 bad_command = [
                                "Ouch!",
                                "Wrong, wrong, wrong...",
                                "Eh... what?",
-                               "lol",
-                               "Unknown command"
+                               "lol"
                                ]
                 print "<<< " + bad_command[ random.randint(0, len(bad_command)-1)]
+                print str(e)
         print "\n"        
         self.mainMenu()
             
@@ -164,7 +166,6 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         for target in self.__controller.getWlanTargets():
             print str(target.quality) + "\t" + target.addr + "\t" + str(target.channel) + "\t\t" + target.name + "\t\t\t" 
 
-#
     def clearScreen(self):
         os.system("clear")
         #print("\x1B[2J")

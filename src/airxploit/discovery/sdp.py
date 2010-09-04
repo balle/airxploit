@@ -9,7 +9,7 @@ import logging
 import airxploit.core
 from airxploit.scanner.bluetooth import BluetoothScanner
 
-class SdpBrowser(object):
+class SdpDiscovery(object):
     '''
     Browse SDP services of a Bluetooth target
     '''
@@ -19,7 +19,7 @@ class SdpBrowser(object):
     
     def __init__(self, blackboard):
         self.__blackboard = blackboard
-        self.__blackboard.registerEvent(SdpBrowser.EVENT)
+        self.__blackboard.registerEvent(SdpDiscovery.EVENT)
         self.__blackboard.registerForEvent(BluetoothScanner.EVENT, self)
         self.__result = []
         
@@ -27,7 +27,7 @@ class SdpBrowser(object):
         return self.__result
     
     def run(self):
-        for target in self.__blackboard.readAllWithoutInfo(SdpBrowser.SECTION):
+        for target in self.__blackboard.readAllWithoutInfo(SdpDiscovery.SECTION):
             try:
                 logging.debug("Executing SDP browse for target " + target.addr)
                 services = []
@@ -40,8 +40,8 @@ class SdpBrowser(object):
                 
                 if services.count > 0:    
                     self.__result = services
-                    self.__blackboard.addInfo(target, SdpBrowser.SECTION, services)
-                    self.__blackboard.fireEvent(SdpBrowser.EVENT)
+                    self.__blackboard.addInfo(target, SdpDiscovery.SECTION, services)
+                    self.__blackboard.fireEvent(SdpDiscovery.EVENT)
 
             except IOError, e:
                 pass

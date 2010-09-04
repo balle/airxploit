@@ -1,5 +1,4 @@
 #!/usr/bin/python
-#!/usr/bin/python
 
 from airxploit.view.console import ConsoleView
 from airxploit.core.blackboard import Blackboard
