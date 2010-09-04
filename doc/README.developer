@@ -1,7 +1,7 @@
 airXploit is a event based pluggable system for wireless world discovery and exploitation
 
 for an UML diagram of the scanning process and how the event machine and blackboard system works togehter
-with the plugin system see scanning.png
+with the plugin system see scanning.png, an overview of the plugin mechanism can be found in plugin_mechanism.png
 
 IMPORTANT: the class name must contain the plugin category name at the end for example an airxploit.scanner.w00w00
 plugin must implement a class named W00w00Scanner
