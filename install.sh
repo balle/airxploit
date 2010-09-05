@@ -3,5 +3,5 @@
 # install dependend modules with easyinstall
 #
 
-easyinstall lightblue
-easyinstall pythonwifi
+easy_install lightblue
+easy_install pythonwifi

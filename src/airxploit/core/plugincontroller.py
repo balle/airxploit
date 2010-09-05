@@ -8,11 +8,11 @@ import os
 import logging
 import re
 
-import airxploit.fuckup
 from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
-from airxploit.discovery.sdp import SdpDiscovery
 from airxploit.discovery.rfcomm import RfcommDiscovery
+from airxploit.discovery.sdp import SdpDiscovery
+import airxploit.fuckup
 
 class PluginController(object):
     '''

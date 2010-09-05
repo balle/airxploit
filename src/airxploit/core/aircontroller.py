@@ -73,8 +73,6 @@ class AirController(object):
             raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
         
         for plugin in scanner:
-            if plugin == "wlan":
-                scanner[plugin].iface = "wlan0"            
             scanner[plugin].run()
     
     '''

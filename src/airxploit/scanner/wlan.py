@@ -64,7 +64,9 @@ class WlanScanner(object):
                                  }
 
     def __init__(self, pcc):
-        self.iface = "wlan0"
+        if pcc.getCfg("wlan_device") == None:
+            raise airxploit.fuckup.plugin_init.PluginInit("wlan_device config undefined")
+        
         self.__targets = {}
         self.__pcc = pcc
         self.__pcc.registerEvent(WlanScanner.EVENT)
@@ -78,7 +80,7 @@ class WlanScanner(object):
         logging.debug("Scanning for wlan devices")
         
         try:
-            wifi = Wireless(self.iface)
+            wifi = Wireless( self.__pcc.getCfg("wlan_device") )
             results = wifi.scan()
         except IOError, e:
             if e.id != errno.EPERM:
