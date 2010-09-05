@@ -28,8 +28,9 @@ class AirController(object):
         self.__pcc = pcc
         self.__pluginController = PluginController(pcc)
         self.__commands = {
-                            "discover" : lambda s, p="": s.__pluginController.loadDiscoveryPlugin(p),
-                            "scan" : lambda s,p="": s.__pluginController.loadScannerPlugin(p),
+                            "discover" : lambda s, p="": s.__pluginController.loadPlugin("discovery", p),
+                            "exploit" : lambda s, p="": s.__pluginController.loadPlugin("exploit", p),
+                            "scan" : lambda s,p="": s.__pluginController.loadPlugin("scanner", p),
                             "show" : lambda s,p="": s.__pluginController.showPlugins(p),
                             "start" : lambda s,p="": s.scan(p)
                           }
@@ -98,3 +99,7 @@ class AirController(object):
                 btTargets.append(target)
                 
         return btTargets    
+
+    def showPlugins(self, category):
+        return self.__pluginController.showPlugins(category)
+        

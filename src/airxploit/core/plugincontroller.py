@@ -12,6 +12,7 @@ from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
 from airxploit.discovery.rfcomm import RfcommDiscovery
 from airxploit.discovery.sdp import SdpDiscovery
+from airxploit.exploit.bluebug import BluebugExploit
 import airxploit.fuckup
 
 class PluginController(object):
@@ -24,6 +25,7 @@ class PluginController(object):
         self.__pcc = pcc
         self.__scanner = {}
         self.__plugins = {}
+        self.__plugins["exploit"] = {}
         self.__plugins["scanner"] = {}
         self.__plugins["discovery"] = {}
 
@@ -52,7 +54,7 @@ class PluginController(object):
     plugins will not be loaded immediately cause they register themself for events in __init__
     '''
     def initPlugins(self):
-        for category in ("scanner", "discovery"):
+        for category in ("scanner", "discovery", "exploit"):
             for name in self.importPlugins(category):
                 self.__plugins[category][name] = lambda s, category, name: self.initPlugin(category, name)
 
@@ -73,48 +75,27 @@ class PluginController(object):
     show all plugins of a category
     '''
     def showPlugins(self, category):
-        if category == "scan":
-            return self.__plugins["scanner"]
-        elif category == "discover":
-            return self.__plugins["discovery"] 
+        if category in self.__plugins:
+            return self.__plugins[category]
     
     '''
-    get a hash of all discovery plugins with name => lambda to init plugin
-    '''
-    def getDiscoveryPlugins(self):
-        return self.__plugins["discovery"]
-
-    '''
-    init one or all discovery plugins
+    init one or all plugins of a given category
     '''    
-    def loadDiscoveryPlugin(self, plugin):
-        if plugin == "all" or plugin == "":
-            for p in self.__plugins["discovery"]:
-                self.__plugins["discovery"][p](self, "discovery", p)
-        elif plugin in self.__plugins["discovery"]:
-            self.__plugins["discovery"][plugin](self, "discovery", plugin)
-        else:
-            raise airxploit.fuckup.not_a_command.NotACommand()
-
-    '''
-    get a hash of all scanner plugins with name => lambda to init plugin
-    TODO: refactor
-    '''            
-    def getScannerPlugins(self):
-        return self.__plugins["scanner"]
-
-    '''
-    init one or all scanner plugins
-    TODO: refactor
-    '''        
-    def loadScannerPlugin(self, plugin):
-        if plugin == "all" or plugin == "":
-            for p in self.__plugins["scanner"]:
-                self.__scanner[p] = self.__plugins["scanner"][p](self, "scanner", p)
-        elif plugin in self.__plugins["scanner"]:
-            self.__scanner[plugin] = self.__plugins["scanner"][plugin](self, "scanner", plugin)
-        else:
-            raise airxploit.fuckup.not_a_command.NotACommand()
+    def loadPlugin(self, category, plugin):
+        if category in self.__plugins:
+            if plugin == "all" or plugin == "":
+                for p in self.__plugins[category]:
+                    if category == "scanner":
+                        self.__scanner[p] = self.__plugins[category][p](self, category, p)
+                    else:
+                        self.__plugins[category][p](self, category, p)
+            elif plugin in self.__plugins[category]:
+                if category == "scanner":
+                    self.__scanner[plugin] = self.__plugins[category][plugin](self, category, plugin)
+                else:
+                    self.__plugins[category][plugin](self, category, plugin)
+            else:
+                raise airxploit.fuckup.not_a_command.NotACommand()
 
     def getActiveScannerPlugins(self):
         return self.__scanner

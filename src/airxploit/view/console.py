@@ -75,7 +75,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
     
     def listPlugins(self, category):
         if category == "all" or category == "":
-            for c in ["discover", "scan"]:
+            for c in ["discovery", "scanner", "exploit"]:
                 print c
                 plugins = self.__controller.showPlugins(c)
                 for plugin in plugins:
@@ -83,6 +83,11 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print ""
 
         else:
+            if category == "scan":
+                category = "scanner"
+            elif category == "discover":
+                category = "discovery"
+
             plugins = self.__controller.showPlugins(category)
         
             if plugins == None:
