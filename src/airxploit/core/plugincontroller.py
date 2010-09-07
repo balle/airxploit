@@ -8,11 +8,6 @@ import os
 import logging
 import re
 
-from airxploit.scanner.bluetooth import BluetoothScanner
-from airxploit.scanner.wlan import WlanScanner
-from airxploit.discovery.rfcomm import RfcommDiscovery
-from airxploit.discovery.sdp import SdpDiscovery
-from airxploit.exploit.bluebug import BluebugExploit
 import airxploit.fuckup
 
 class PluginController(object):
@@ -42,9 +37,8 @@ class PluginController(object):
                 if re.search(r"__init__", file) == None and re.search(r"py$", file):
                         plugin_name = re.sub(r".py$", "", file)
                         plugin = "airxploit." + category + "." + plugin_name
-                        #exec("import " + plugin)
-                        exec("from " + plugin + " import " + plugin_name.capitalize() + category.capitalize())
                         logging.debug("importing plugin " + plugin)
+                        eval("__import__('" + plugin + "')")
                         plugins[plugin_name] = plugin
         return plugins
 
@@ -62,14 +56,11 @@ class PluginController(object):
     init the given plugin
     '''
     def initPlugin(self, category, name):
-#        logging.debug("Load plugin " + "airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()) 
-#        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()(self.__pcc))
-        if name.capitalize() + category.capitalize() in globals():
-            logging.debug("Load plugin " + name.capitalize() + category.capitalize())
-            return globals()[name.capitalize() + category.capitalize()](self.__pcc)  
-        else:
-            logging.error("Cannot load " + category + " plugin " + name)
-            raise airxploit.fuckup.plugin_init.PluginInit(category + " " + name)
+        logging.debug("Load plugin " + "airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()) 
+        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize() + "(self.getPcc())")
+
+    def getPcc(self):
+        return self.__pcc
 
     '''
     show all plugins of a category
