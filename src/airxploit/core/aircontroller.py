@@ -69,7 +69,7 @@ class AirController(object):
             self.doScanning()
             
     def doScanning(self):
-        scanner = self.__pluginController.getActiveScannerPlugins()
+        scanner = self.__pluginController.scanner
         if len(scanner) == 0:
             raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
         
