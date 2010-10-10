@@ -17,8 +17,8 @@ class PluginController(object):
     '''
     
     def __init__(self, pcc):
-        self.__pcc = pcc
-        self.__scanner = {}
+        self.pcc = pcc
+        self.scanner = {}
         self.__plugins = {}
         self.__plugins["exploit"] = {}
         self.__plugins["scanner"] = {}
@@ -57,10 +57,7 @@ class PluginController(object):
     '''
     def initPlugin(self, category, name):
         logging.debug("Load plugin " + "airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize()) 
-        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize() + "(self.getPcc())")
-
-    def getPcc(self):
-        return self.__pcc
+        return eval("airxploit." + category + "." + name + "." + name.capitalize() + category.capitalize() + "(self.pcc)")
 
     '''
     show all plugins of a category
@@ -87,6 +84,3 @@ class PluginController(object):
                     self.__plugins[category][plugin](self, category, plugin)
             else:
                 raise airxploit.fuckup.not_a_command.NotACommand()
-
-    def getActiveScannerPlugins(self):
-        return self.__scanner
