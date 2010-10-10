@@ -74,12 +74,12 @@ class PluginController(object):
             if plugin == "all" or plugin == "":
                 for p in self.__plugins[category]:
                     if category == "scanner":
-                        self.__scanner[p] = self.__plugins[category][p](self, category, p)
+                        self.scanner[p] = self.__plugins[category][p](self, category, p)
                     else:
                         self.__plugins[category][p](self, category, p)
             elif plugin in self.__plugins[category]:
                 if category == "scanner":
-                    self.__scanner[plugin] = self.__plugins[category][plugin](self, category, plugin)
+                    self.scanner[plugin] = self.__plugins[category][plugin](self, category, plugin)
                 else:
                     self.__plugins[category][plugin](self, category, plugin)
             else:
