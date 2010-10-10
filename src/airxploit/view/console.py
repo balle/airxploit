@@ -124,6 +124,8 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
             except airxploit.fuckup.not_a_command.NotACommand, e:
                 print "<<< Unknown command"
+            except airxploit.fuckup.not_an_event.NotAnEvent, e:
+                print "<<< " + str(e)
             except airxploit.fuckup.big_shit.BigShit, e:
                 print "<<< " + str(e)
                 logging.error(str(e))
