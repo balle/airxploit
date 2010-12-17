@@ -4,7 +4,6 @@ Created on 31.07.2010
 @author: basti
 '''
 
-import logging
 from time import sleep
 from airxploit.scanner.bluetooth import BluetoothScanner
 from airxploit.scanner.wlan import WlanScanner
@@ -13,7 +12,6 @@ import airxploit.fuckup
 import airxploit.discovery
 from airxploit.core.plugincontroller import PluginController
 import re
-import os
 
 class AirController(object):
     '''
@@ -25,81 +23,84 @@ class AirController(object):
     WLAN_EVENT = WlanScanner.EVENT
 
     def __init__(self, pcc):
-        self.__pcc = pcc
-        self.__pluginController = PluginController(pcc)
-        self.__commands = {
-                            "discover" : lambda s, p="": s.__pluginController.loadPlugin("discovery", p),
-                            "exploit" : lambda s, p="": s.__pluginController.loadPlugin("exploit", p),
-                            "scan" : lambda s,p="": s.__pluginController.loadPlugin("scanner", p),
-                            "show" : lambda s,p="": s.__pluginController.showPlugins(p),
-                            "start" : lambda s,p="": s.scan(p)
+        self._pcc = pcc
+        self._plugin_controller = PluginController(pcc)
+        self._commands = {
+            "discover" : lambda s, p="": s._plugin_controller.load_plugin("discovery", p),
+            "exploit" : lambda s, p="": s._plugin_controller.load_plugin("exploit", p),
+            "scan" : lambda s,p="": s._plugin_controller.load_plugin("scanner", p),
+            "show" : lambda s,p="": s._plugin_controller.show_plugins(p),
+            "start" : lambda s,p="": s.scan(p)
                           }
-        self.__pluginController.initPlugins()
+        self._plugin_controller.init_plugins()
 
-    '''
-    get all commands
-    '''
-    def getCommands(self):
-        return self.__commands.keys()
+    def get_commands(self):
+        '''
+        get all commands
+        '''
+        return self._commands.keys()
     
-    '''
-    run a command
-    '''
-    def runCommand(self, cmdline):
+    def run_command(self, cmdline):
+        '''
+        run a command
+        '''
         cmd = re.split(r"\s", cmdline)
         
-        if cmd[0] in self.__commands:
+        if cmd[0] in self._commands:
             if len(cmd) == 2:
-                self.__commands[cmd[0]](self, cmd[1])
+                self._commands[cmd[0]](self, cmd[1])
             else:
-                self.__commands[cmd[0]](self)
+                self._commands[cmd[0]](self)
         else:
             raise airxploit.fuckup.not_a_command.NotACommand(cmd)
 
     
-    '''
-    scan for targets
-    '''        
     def scan(self, mode=""):
+        '''
+        scan for targets
+        '''        
         if mode == "loop":
             while True:
-                self.doScanning()
-                sleep(10);
+                self.do_scanning()
+                sleep(10)
         else:
-            self.doScanning()
+            self.do_scanning()
             
-    def doScanning(self):
-        scanner = self.__pluginController.scanner
+    def do_scanning(self):
+        scanner = self._plugin_controller.scanner
         if len(scanner) == 0:
-            raise airxploit.fuckup.big_shit.BigShit("No scanner loaded");
+            raise airxploit.fuckup.big_shit.BigShit("No scanner loaded")
         
         for plugin in scanner:
             scanner[plugin].run()
     
-    '''
-    get a list of wlan targets
-    '''    
-    def getWlanTargets(self):
-        wlanTargets = []
+    def get_wlan_targets(self):
+        '''
+        get a list of wlan targets
+        '''    
+        wlan_targets = []
         
-        for target in self.__pcc.readAll().values():
+        for target in self._pcc.read_all().values():
             if type(target) == Wlan:
-                wlanTargets.append(target)
+                wlan_targets.append(target)
                 
-        return wlanTargets    
+        return wlan_targets    
 
-    '''
-    get a list of bluetooth targets
-    '''
-    def getBluetoothTargets(self):
-        btTargets = []
+    def get_bluetooth_targets(self):
+        '''
+        get a list of bluetooth targets
+        '''
+        bt_targets = []
         
-        for target in self.__pcc.readAll().values():
+        for target in self._pcc.read_all().values():
             if type(target) == Bluetooth:
-                btTargets.append(target)
+                bt_targets.append(target)
                 
-        return btTargets    
+        return bt_targets    
 
-    def showPlugins(self, category):
-        return self.__pluginController.showPlugins(category)
+    def show_plugins(self, category):
+        """
+        return all plugins of a given category
+        """
+        return self._plugin_controller.show_plugins(category)
         

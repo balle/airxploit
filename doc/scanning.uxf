@@ -30,20 +30,20 @@ Target.Bluetooth
 Target.Wlan
 </panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>20</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Scanner.Wlan
+result
 --
-run()
-getResult()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>220</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
+run()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Class</type><coordinates><x>220</x><y>410</y><w>140</w><h>80</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 Scanner.Bluetooth
+result
 --
-run()
-getResult()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>60</x><y>70</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;30;30;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>180</x><y>70</y><w>130</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;30;110;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>20</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
+run()</panel_attributes><additional_attributes/></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>60</x><y>70</y><w>110</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>90;30;30;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>180</x><y>70</y><w>130</w><h>110</h></coordinates><panel_attributes>lt=&lt;&lt;-</panel_attributes><additional_attributes>30;30;110;90</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>20</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>70;30;70;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>220</x><y>220</y><w>124</w><h>210</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;use&gt;&gt;</panel_attributes><additional_attributes>70;30;70;190</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>0</x><y>300</y><w>470</w><h>130</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>450;50;140;50;140;110</additional_attributes></element><element><type>com.umlet.element.base.Relation</type><coordinates><x>200</x><y>320</y><w>270</w><h>110</h></coordinates><panel_attributes>lt=&lt;.
 &lt;&lt;add target and fire event&gt;&gt;</panel_attributes><additional_attributes>250;50;140;50;140;90</additional_attributes></element><element><type>com.umlet.element.base.Class</type><coordinates><x>450</x><y>270</y><w>170</w><h>150</h></coordinates><panel_attributes>&lt;&lt;Class&gt;&gt;
 PluginControlCenter
 --
-addTarget()
-addInfo()
-registerEvent()
-registerService()</panel_attributes><additional_attributes/></element></umlet_diagram>
+add_target()
+add_info()
+register_event()
+register_service()</panel_attributes><additional_attributes/></element></umlet_diagram>

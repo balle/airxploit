@@ -12,6 +12,7 @@ class BigShit(Exception):
 
 
     def __init__(self, what):
+        super(BigShit, self).__init__()
         self.__msg = "Big shit happened: " + what
         
     def __str__(self):

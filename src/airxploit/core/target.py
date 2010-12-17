@@ -9,25 +9,33 @@ class Target(object):
     AirXploit target
     '''
 
-
     def __init__(self):
         self.name = "unknown"
         self.addr = None
         self.encryption = None
         self.quality = None
-        self.__additional_information = {}
+        self._additional_information = {}
 
-    def writeInfo(self, section, info):
-        self.__additional_information[section] = info
+    def write_info(self, section, info):
+        """
+        write an info to a section
+        """
+        self._additional_information[section] = info
 
-    def readInfo(self, section):
-        if section in self.__additional_information:
-            return self.__additional_information[section]
+    def read_info(self, section):
+        """
+        read all information of section
+        """
+        if section in self._additional_information:
+            return self._additional_information[section]
         else:
             return None
     
-    def hasInfo(self, section):
-        if section in self.__additional_information:
+    def has_info(self, section):
+        """
+        check if target has information in the given section
+        """
+        if section in self._additional_information:
             return True
         else:
             return False
@@ -37,7 +45,6 @@ class Bluetooth(Target):
     Bluetooth target
     '''
 
-
     def __init__(self):
         Target.__init__(self)
 
@@ -46,8 +53,6 @@ class Wlan(Target):
     Wlan target
     '''
 
-
     def __init__(self):
         Target.__init__(self)
         self.channel = None
-        

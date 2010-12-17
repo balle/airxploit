@@ -15,30 +15,43 @@ class Blackboard(object):
     '''
 
     def __init__(self):
-        self.__targets = {}
+        self._targets = {}
                
     def add(self, target):
-        if type(target).__bases__[0] == airxploit.core.target.Target and target.addr not in self.__targets:
-            logging.debug("Adding target " + target.addr)
-            self.__targets[target.addr] = target
+        """
+        add a target to the blackboard
+        """
+        if issubclass(target.__class__, airxploit.core.target.Target):
+            if target.addr not in self._targets:
+                logging.debug(str(self.__class__) + " Adding target " + target.addr)
+                self._targets[target.addr] = target
         else:
             raise NotATarget(target)
 
-    def addInfo(self, target, section, info):
-        if type(target).__bases__[0] == airxploit.core.target.Target and target.addr in self.__targets:
-            logging.debug("Adding info " + section + " to target " + target.addr)
-            self.__targets[target.addr].writeInfo(section, info)
+    def add_info(self, target, section, info):
+        """
+        add an info to section of target
+        """
+        if type(target).__bases__[0] == airxploit.core.target.Target and target.addr in self._targets:
+            logging.debug(str(self.__class__) + " Adding info " + section + " to target " + target.addr)
+            self._targets[target.addr].write_info(section, info)
         else:
             raise NotATarget(target)
     
-    def readAll(self):
-        return self.__targets
+    def read_all(self):
+        """
+        read all information on blackboard
+        """
+        return self._targets
          
-    def readAllWithoutInfo(self, section):
+    def read_all_without_info(self, section):
+        """
+        get all targets without a special info section
+        """
         interesting_targets = []
         
-        for target in self.__targets.values():
-            if not target.hasInfo(section):
+        for target in self._targets.values():
+            if not target.has_info(section):
                 interesting_targets.append(target)
         
         return interesting_targets

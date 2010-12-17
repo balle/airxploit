@@ -16,19 +16,21 @@ class RfcommDiscovery(object):
     SECTION = "rfcomm"
 
     def __init__(self, pcc):
-        self.__pcc = pcc
-        self.__pcc.registerEvent(RfcommDiscovery.EVENT)
-        self.__pcc.registerForEvent(BluetoothScanner.EVENT, self)
-        self.__pcc.registerService("RfcommDiscovery", self)
-        self.__result = []
-    
-    def getResult(self):
-        return self.__result
-    
+        self._pcc = pcc
+        self._pcc.register_event(RfcommDiscovery.EVENT)
+        self._pcc.register_for_event(BluetoothScanner.EVENT, self)
+        self._pcc.register_service("RfcommDiscovery", self)
+        self.result = []
+
     def run(self):
-        for target in self.__pcc.readAllWithoutInfo(RfcommDiscovery.SECTION):
-            logging.debug("Executing RFCOMM scanner for target " + target.addr)
-            self.__result = []
+        """
+        run the plugin
+        """
+        logging.debug(str(self.__class__) + " run()")
+        
+        for target in self._pcc.read_all_without_info(RfcommDiscovery.SECTION):
+            logging.debug(str(self.__class__) + " Executing RFCOMM scanner for target " + target.addr)
+            self.result = []
             channels = []
             
             for scan in range(20):
@@ -41,24 +43,30 @@ class RfcommDiscovery(object):
                     sock.close
                 
                     channel.open = True
-                    logging.debug("Channel " + str(scan+1) + " open")
+                    logging.debug(str(self.__class__) + " Channel " + str(scan+1) + " open")
                 except IOError:
                     channel.open = False
-                    logging.debug("Channel " + str(scan+1) + " closed")
+                    logging.debug(str(self.__class__) + " Channel " + str(scan+1) + " closed")
                 
                 channels.append(channel)
                 
             if channels.count > 0:    
-                self.__result = channels
-                self.__pcc.addInfo(target, RfcommDiscovery.SECTION, channels)
-                self.__pcc.fireEvent(RfcommDiscovery.EVENT)
+                self.result = channels
+                self._pcc.add_info(target, RfcommDiscovery.SECTION, channels)
+                self._pcc.fire_event(RfcommDiscovery.EVENT)
             
-    def gotEvent(self, event):        
+    def got_event(self, event):
+        """
+        event callback function
+        """        
+        logging.debug(str(self.__class__) + " Got event " + event)
         self.run()
 
 
 class RfcommService(object):
-    
+    """
+    Encapsulate a rfcomm service
+    """    
     def __init__(self):
         self.nr = 0
         self.open = False

@@ -14,27 +14,39 @@ class ServiceRegistry(object):
     '''
     
     def __init__(self):
-        self.__services = {}
+        self._services = {}
         
     def register(self, name, plugin):
-        if name not in self.__services:
-            self.__services[name] = plugin
-            logging.debug("Registered service " + name + " -> " + str(plugin))
+        """
+        register a plugin under the given name
+        """
+        if name not in self._services:
+            self._services[name] = plugin
+            logging.debug(str(self.__class__) + " Registered service " + name + " -> " + str(type(plugin)))
         else:
-            logging.error("Service " + name + " already registered")
+            logging.error(str(self.__class__) + " Service " + name + " already registered")
 
     def unregister(self, name):
-        if name in self.__services:
-            del self.__services[name]
-            logging.debug("Unregister service " + name)
+        """
+        unregister service with given name
+        """
+        if name in self._services:
+            del self._services[name]
+            logging.debug(str(self.__class__) + " Unregister service " + name)
         else:
             raise airxploit.fuckup.not_a_service.NotAService(name)
         
-    def getService(self, name):
-        if name in self.__services:
-            return self.__services[name]
+    def get_service(self, name):
+        """
+        get plugin with service name
+        """
+        if name in self._services:
+            return self._services[name]
         else:
             raise airxploit.fuckup.not_a_service.NotAService(name)
     
     def services(self):
-        return self.__services.keys()
+        """
+        get a list of service names
+        """
+        return self._services.keys()

@@ -4,7 +4,6 @@ Created on 05.09.2010
 @author: basti
 '''
 
-import logging
 from airxploit.core.blackboard import Blackboard
 from airxploit.core.config import Config
 from airxploit.core.eventmachine import EventMachine
@@ -17,43 +16,79 @@ class PluginControlCenter(object):
     '''
 
     def __init__(self):
-        self.__blackbaord = Blackboard()
-        self.__cfg = Config()
-        self.__event = EventMachine()        
-        self.__service = ServiceRegistry()
+        self._blackboard = Blackboard()
+        self._cfg = Config()
+        self._event = EventMachine()        
+        self._service = ServiceRegistry()
 
-    def addTarget(self, target):
-        return self.__blackbaord.add(target)
+    def add_target(self, target):
+        """
+        add a target
+        """
+        return self._blackboard.add(target)
     
-    def addInfo(self, target, section, info):
-        return self.__blackbaord.addInfo(target, section, info)
+    def add_info(self, target, section, info):
+        """
+        add an info to section of target
+        """
+        return self._blackboard.add_info(target, section, info)
     
-    def readAll(self):
-        return self.__blackbaord.readAll()
+    def read_all(self):
+        """
+        read all information on blackboard
+        """
+        return self._blackboard.read_all()
      
-    def readAllWithoutInfo(self, section):
-        return self.__blackbaord.readAllWithoutInfo(section)
+    def read_all_without_info(self, section):
+        """
+        get all targets without the given section
+        """
+        return self._blackboard.read_all_without_info(section)
     
-    def registerEvent(self, name):
-        return self.__event.register(name)
+    def register_event(self, name):
+        """
+        register an event
+        """
+        return self._event.register(name)
     
-    def fireEvent(self, name):
-        return self.__event.fire(name)
+    def fire_event(self, name):
+        """
+        fire an event
+        """
+        return self._event.fire(name)
 
-    def registerForEvent(self, name, obj):
-        return self.__event.registerFor(name, obj)
+    def register_for_event(self, name, obj):
+        """
+        register a class as listerner to an event
+        """
+        return self._event.register_for(name, obj)
 
-    def registerService(self, name, plugin):
-        return self.__service.register(name, plugin)
+    def register_service(self, name, plugin):
+        """
+        register a service (plugin) under given name
+        """
+        return self._service.register(name, plugin)
     
-    def unregisterService(self, name):
-        return self.__service.unregister(name)
+    def unregister_service(self, name):
+        """
+        unregister servive with given name
+        """
+        return self._service.unregister(name)
     
-    def getService(self, name):
-        return self.__service.getService(name)
+    def get_service(self, name):
+        """
+        get the service plugin for given service name
+        """
+        return self._service.get_service(name)
 
-    def getCfg(self, name):
-        return self.__cfg.get(name)
+    def get_cfg(self, name):
+        """
+        get config value for name
+        """
+        return self._cfg.get(name)
     
-    def getTool(self, name):
-        return self.__cfg.cmd(name)
+    def get_tool(self, name):
+        """
+        get config tool 
+        """
+        return self._cfg.cmd(name)

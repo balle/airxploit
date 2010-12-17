@@ -64,30 +64,27 @@ class WlanScanner(object):
                                  }
 
     def __init__(self, pcc):
-        if pcc.getCfg("wlan_device") == None:
+        if pcc.get_cfg("wlan_device") == None:
             raise airxploit.fuckup.plugin_init.PluginInit("wlan_device config undefined")
         
-        self.__targets = {}
-        self.__pcc = pcc
-        self.__pcc.registerEvent(WlanScanner.EVENT)
-        self.__pcc.registerService("WlanScanner", self)
-        
-    def getResult(self):
-        return self.__targets.values()
+        self.result = set()
+        self._pcc = pcc
+        self._pcc.register_event(WlanScanner.EVENT)
+        self._pcc.register_service("WlanScanner", self)
     
     def run(self):
-        current_targets = {}
-        logging.debug("Scanning for wlan devices")
+        """
+        run the plugin
+        """
+        current_targets = set()
+        logging.debug(str(self.__class__) + " Scanning for wlan devices")
         
         try:
-            wifi = Wireless( self.__pcc.getCfg("wlan_device") )
+            wifi = Wireless( self._pcc.get_cfg("wlan_device") )
             results = wifi.scan()
-        except IOError, e:
-            if e.id != errno.EPERM:
-                raise BigShit("Interface " + wifi.ifname + " doesnt support scanning")
-            else:
-                raise PermissionDenied("Cannot scan for wifi :(")
-                sys.exit(1)
+        except IOError:
+            raise PermissionDenied("Cannot scan for wifi :(")
+            sys.exit(1)
         
         if len(results) > 0:
             for ap in results:
@@ -96,18 +93,19 @@ class WlanScanner(object):
                 target.quality = ap.quality.getSignallevel()
                 target.name = ap.essid
                 target.addr = ap.bssid
-                target.channel = WlanScanner.frequency_channel_map[ ap.frequency.getFrequency() ]
-                current_targets[ap.bssid] = target
-                logging.debug("Found wlan device " + ap.bssid + " " + " " + ap.essid)
-        
-        got_new_targets = False
-        
-        for key in current_targets:
-            if key not in self.__targets:
-                got_new_targets = True
-                self.__targets[key] = current_targets[key]
-                self.__pcc.addTarget( current_targets[key] )
+                target.channel = WlanScanner.frequency_channel_map.get( ap.frequency.getFrequency() )
+                current_targets.add(target)
+                logging.debug(str(self.__class__) + " Found wlan device " + ap.bssid + " " + " " + ap.essid)
+
+        if self.result == current_targets:
+            got_new_targets = False
+        else:
+            got_new_targets = True
 
         if got_new_targets:
-            self.__pcc.fireEvent(WlanScanner.EVENT)
-        
+            for target in current_targets:
+                if target not in self.result:
+                    self._pcc.add_target( target )
+
+            self.result = current_targets
+            self._pcc.fire_event(WlanScanner.EVENT)    

@@ -1,12 +1,17 @@
-#!/usr/bin/python
+#!/usr/bin/python2
 
 from airxploit.view.console import ConsoleView
 from airxploit.core.plugin_control_center import PluginControlCenter
 import logging
+import sys
 
 logging.basicConfig(filename='airxploit.log', level=logging.DEBUG)
 
-airView = ConsoleView( PluginControlCenter() )
+airview = ConsoleView( PluginControlCenter() )
 
-airView.header()
-airView.run()
+airview.header()
+
+try:
+    airview.run()
+except KeyboardInterrupt:
+    sys.exit(1)

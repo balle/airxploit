@@ -4,9 +4,7 @@ Created on 07.08.2010
 @author: basti
 '''
 import lightblue
-import sys
 import logging
-import airxploit.core
 from airxploit.scanner.bluetooth import BluetoothScanner
 
 class SdpDiscovery(object):
@@ -18,19 +16,21 @@ class SdpDiscovery(object):
     SECTION = "sdp"
     
     def __init__(self, pcc):
-        self.__pcc = pcc
-        self.__pcc.registerEvent(SdpDiscovery.EVENT)
-        self.__pcc.registerForEvent(BluetoothScanner.EVENT, self)
-        self.__pcc.registerService("SdpDiscovery", self)
-        self.__result = []
+        self._pcc = pcc
+        self._pcc.register_event(SdpDiscovery.EVENT)
+        self._pcc.register_for_event(BluetoothScanner.EVENT, self)
+        self._pcc.register_service("SdpDiscovery", self)
+        self.result = []
         
-    def getResult(self):
-        return self.__result
-    
     def run(self):
-        for target in self.__pcc.readAllWithoutInfo(SdpDiscovery.SECTION):
+        """
+        run the plugin
+        """
+        logging.debug(str(self.__class__) + " run()")
+        
+        for target in self._pcc.read_all_without_info(SdpDiscovery.SECTION):
             try:
-                logging.debug("Executing SDP browse for target " + target.addr)
+                logging.debug(str(self.__class__) +  " Executing SDP browse for target " + target.addr)
                 services = []
                 
                 for sdp in lightblue.findservices(target.addr):
@@ -40,23 +40,28 @@ class SdpDiscovery(object):
                     services.append(service)
                 
                 if services.count > 0:    
-                    self.__result = services
-                    self.__pcc.addInfo(target, SdpDiscovery.SECTION, services)
-                    self.__pcc.fireEvent(SdpDiscovery.EVENT)
+                    self.result = services
+                    self._pcc.add_info(target, SdpDiscovery.SECTION, services)
+                    self._pcc.fire_event(SdpDiscovery.EVENT)
 
-            except IOError, e:
+            except IOError:
                 pass
         
     
-    def gotEvent(self, event):        
+    def got_event(self, event):
+        """
+        event callback function
+        """
+        logging.debug(str(self.__class__) + " Got event " + event)        
         self.run()
         
 class SdpService(object):
-    
+    """
+    encapsulate a sdp service
+    """
     def __init__(self):
         self.name = ""
         self.channel = None
         
     def __str__(self):
         return str(self.channel) + " " + self.name
-    

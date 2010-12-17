@@ -6,6 +6,7 @@ Created on 05.09.2010
 
 from pyxml2obj import XMLin
 import logging
+import os
 
 class Config(object):
     '''
@@ -13,19 +14,22 @@ class Config(object):
     '''
     
     def __init__(self):
-        logging.debug("Parse config conf/airxploit.conf")
-        self.__cfg = XMLin( open("conf/airxploit.conf","r").read() )
+        logging.debug(str(self.__class__) + " Parse config conf/airxploit.conf")
+        if os.path.exists("conf/airxploit.conf"):
+            self._cfg = XMLin( open("conf/airxploit.conf","r").read() )
+        else:
+            self._cfg = XMLin( open("../conf/airxploit.conf","r").read() )
 
-    '''
-    get a config setting
-    '''
     def get(self, name):
-        if name in self.__cfg["config"]:
-            return str(self.__cfg["config"][name])
+        '''
+        get a config setting
+        '''
+        if name in self._cfg["config"]:
+            return str(self._cfg["config"][name])
     
-    '''
-    get a tool command
-    '''
     def cmd(self, name):
-        if name in self.__cfg["tools"]:
-            return str(self.__cfg["tools"][name])
+        '''
+        get a tool command
+        '''
+        if name in self._cfg["tools"]:
+            return str(self._cfg["tools"][name])

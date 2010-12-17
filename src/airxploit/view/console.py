@@ -19,11 +19,14 @@ class ConsoleView(object):
 
 
     def __init__(self, blackboard):
-        self.__controller = AirController(blackboard)
-        self.__blackboard = blackboard
-        self.__blackboard.registerForEvent("ALL", self)
+        self._controller = AirController(blackboard)
+        self._blackboard = blackboard
+        self._blackboard.register_for_event("ALL", self)
     
     def header(self):
+        """
+        print header on initialization
+        """
         print """
             d8,                                     d8b           d8,        
            `8P                                      88P          `8P    d8P  
@@ -47,7 +50,10 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         print greet_msg[ random.randint(0, len(greet_msg)-1) ]
         print ""
 
-    def runAway(self):
+    def run_away(self):
+        """
+        print random exit message and exit
+        """
         exit_msg = ["Got a wireless ride?",
                     "May the source be with you",
                     "Have a nice day!",
@@ -63,21 +69,30 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         sys.exit(0)
     
     def run(self):
-        self.listCommands()
-        self.mainMenu()
+        """
+        run the view
+        """
+        self.list_commands()
+        self.main_menu()
 
-    def listCommands(self):
+    def list_commands(self):
+        """
+        list all available commands
+        """
         print "///[ Commands:"
-        for cmd in self.__controller.getCommands():
+        for cmd in self._controller.get_commands():
             print "\t* " + cmd
         
         print "\n"
     
-    def listPlugins(self, category):
+    def list_plugins(self, category):
+        """
+        list all plugins of the given category or all if category is empty or all
+        """
         if category == "all" or category == "":
             for c in ["discovery", "scanner", "exploit"]:
                 print c
-                plugins = self.__controller.showPlugins(c)
+                plugins = self._controller.show_plugins(c)
                 for plugin in plugins:
                     print "\t" + plugin
                 print ""
@@ -88,16 +103,18 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
             elif category == "discover":
                 category = "discovery"
 
-            plugins = self.__controller.showPlugins(category)
+            plugins = self._controller.show_plugins(category)
         
             if plugins == None:
                 print "<<< Dunno what " + category + " is x.x"
             else:
                 for plugin in plugins:
                     print plugin
-        print ""
     
-    def mainMenu(self):
+    def main_menu(self):
+        """
+        print the main menu
+        """
         print ">>> ",
         
         cmd = sys.stdin.readline()
@@ -105,11 +122,11 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
         matched_show = re.match(r"^show\s?(.*)", cmd)
         
         if cmd == "help" or cmd == "":
-            self.listCommands()
+            self.list_commands()
         elif cmd == "exit" or cmd == "quit":
-            self.runAway()
+            self.run_away()
         elif matched_show:
-            self.listPlugins(matched_show.group(1))
+            self.list_plugins(matched_show.group(1))
         else:    
             try:
                 cmd_successfull = [
@@ -120,7 +137,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                                    "yes, master.",
                                    ":)"
                                    ]
-                self.__controller.runCommand(cmd)            
+                self._controller.run_command(cmd)            
                 print "<<< " + cmd_successfull[ random.randint(0, len(cmd_successfull)-1)]
             except airxploit.fuckup.not_a_command.NotACommand, e:
                 print "<<< Unknown command"
@@ -143,17 +160,20 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                 print str(e)
                 logging.error(str(e))
         print "\n"        
-        self.mainMenu()
+        self.main_menu()
             
-    def gotEvent(self, event):
-        logging.debug("Got event " + event)
-        self.clearScreen()
+    def got_event(self, event):
+        """
+        event callback function
+        """
+        logging.debug(str(self.__class__) + " Got event " + event)
+        self.clear_screen()
         self.header()
         print "Link\tAddr\tChannel\t\t\tName"
 
-        for target in self.__controller.getBluetoothTargets():
+        for target in self._controller.get_bluetooth_targets():
             print "-\t" + target.addr + "\t" + "-\t" + target.name
-            sdp = target.readInfo("sdp")
+            sdp = target.read_info("sdp")
             
             if sdp != None:            
                 print "\nSDP agent"
@@ -163,7 +183,7 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                     print str(service.channel) + "\t\t" + service.name
                 print "\n"
 
-            rfcomm = target.readInfo("rfcomm")
+            rfcomm = target.read_info("rfcomm")
             
             if rfcomm != None:            
                 print "\nRFCOMM agent"
@@ -173,9 +193,12 @@ d8P' ?88    88P  88P'  `     `?8bd8P'    `?88'  ?88?88  d8P' ?88  88P  88P
                     print str(channel.nr) + "\t\t" + str(channel.open)
                 print "\n"
             
-        for target in self.__controller.getWlanTargets():
+        for target in self._controller.get_wlan_targets():
             print str(target.quality) + "\t" + target.addr + "\t" + str(target.channel) + "\t\t" + target.name + "\t\t\t" 
 
-    def clearScreen(self):
+    def clear_screen(self):
+        """
+        clear the screen
+        """
         os.system("clear")
         #print("\x1B[2J")
